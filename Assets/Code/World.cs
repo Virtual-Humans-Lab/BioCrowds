@@ -7,7 +7,9 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.AI;
 using System.Collections;
+using UnityEngine.AI;
 
 namespace Biocrowds.Core
 {
@@ -219,9 +221,9 @@ namespace Biocrowds.Core
                 Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0.5f, zPos), Quaternion.identity, agentPool);
 
                 newAgent.name = "Agent [" + i + "]";  //name
-                newAgent.CurrentCell = _cells[i];     //agent cell
+                newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
-                newAgent.Goal = _goal.gameObject;     //agent goal
+                newAgent.Goal = _goal.gameObject;  //agent goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
