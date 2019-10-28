@@ -87,26 +87,36 @@ namespace Biocrowds.Modules
 
             // Load, choose and apply weibuls based on density
             float dens = 0;
-            float[] densities = new float[] {0.5f, 0.25f, 0.75f, 1.5f, 1.75f, 1f, 2.25f, 2f};
+            float minDist = 10000;
+            float[] densities = new float[] { 0.25f, 0.5f, 0.75f, 1f, 1.5f, 1.75f, 2f, 2.25f };
+            float closestDensity = 2f;
             foreach(float ddensity in densities)
             {
-                if (ddensity == density)
+                if (Mathf.Abs(density - ddensity) < minDist)
                 {
-                    string path = System.IO.Path.Combine(Application.dataPath, "Experiments");
-                    path = System.IO.Path.Combine(path, "weibuls");
-                    int index = UnityEngine.Random.Range(0, 5000);
-                    string[] lines = File.ReadAllLines(string.Format("{0}Dens{1}.txt", path, density), Encoding.UTF8);
-                    dens =  float.Parse(lines[index]);
-
+                    minDist = Mathf.Abs(density - ddensity);
+                    closestDensity = ddensity;
                 }
-                break;
             }
+            // The follow commented lines should be refactored
+            // Getting the path
+            string path = System.IO.Path.Combine(getExperimentsPath(), "weibuls");
+            // Random value from distribution
+            int index = UnityEngine.Random.Range(0, 5000);
+            // Reads all the file into the array and gets the index line
+            string[] lines = File.ReadAllLines(string.Format("{0}Dens{1}.txt", path, closestDensity), Encoding.UTF8);
+            dens =  float.Parse(lines[index]);
 
             predictedPosition = predictedPosition - dens * (unary_goal) * deltaTime;
 
             Debug.DrawLine(currentPosition, predictedPosition);
 
             return new Vector3[] { currentPosition, predictedPosition };
+        }
+
+        string getExperimentsPath()
+        {
+             return System.IO.Path.Combine(Application.dataPath, "Experiments");
         }
 
         data experimentAccuracy()
