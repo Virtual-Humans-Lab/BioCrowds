@@ -237,6 +237,21 @@ namespace Biocrowds.Core
             }
         }
 
+        public int agentsAroundPosition(Vector3 pos)
+        {
+            int count = 0;
+            foreach (Agent a in _agents)
+            {
+                Vector3 ppos = a.transform.position;
+                float dX = Mathf.Pow(ppos.x - pos.x, 2);
+                float dY = Mathf.Pow(ppos.y - pos.y, 2);
+                float dZ = Mathf.Pow(ppos.z - pos.z, 2);
+                float dist = Mathf.Sqrt(dX + dY + dZ);
+                if (dist <= 6) count++;
+            }
+            return count;
+        }
+
         // Update is called once per frame
         void Update()
         {

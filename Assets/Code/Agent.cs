@@ -15,13 +15,15 @@ namespace Biocrowds.Core
     {
         private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
 
+        private float deltaTime = 1f / 30f;
+
         //agent radius
         public float agentRadius;
         //agent speed
         public Vector3 _velocity;
         //max speed
         [SerializeField]
-        private float _maxSpeed = 1.5f;
+        private float _maxSpeed = 1.3f; // Not sure if its actually working
 
         //goal
         public GameObject Goal;
@@ -122,7 +124,7 @@ namespace Biocrowds.Core
         public void Step()
         {
             if (_velocity.sqrMagnitude > 0.0f)
-                transform.Translate(_velocity * Time.deltaTime, Space.World);
+                transform.Translate(_velocity * deltaTime, Space.World);
         }
 
         //The calculation formula starts here

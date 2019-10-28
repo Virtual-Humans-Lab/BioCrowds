@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114266688055797076}
   m_Layer: 0
   m_Name: AgentPrefab
-  m_TagString: Player
+  m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
