@@ -7,6 +7,7 @@ TagManager:
   - Goal
   - Cell
   - Obstacle
+  - SecondGoal
   layers:
   - Default
   - TransparentFX

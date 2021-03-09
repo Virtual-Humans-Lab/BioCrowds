@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentRadius: 1
   _velocity: {x: 0, y: 0, z: 0}
-  _maxSpeed: 50
+  _maxSpeed: 1.5
   Goal: {fileID: 0}
+  agentCheckTransform: {fileID: 0}
   _distAuxin: []
+  _goalPosition: {x: 0, y: 0, z: 0}

@@ -9,6 +9,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using System;
 
 namespace Biocrowds.Core
 {
@@ -18,14 +19,20 @@ namespace Biocrowds.Core
 
         //agent radius
         public float agentRadius;
+
         //agent speed
         public Vector3 _velocity;
+
         //max speed
         [SerializeField]
         private float _maxSpeed = 1.5f;
 
         //goal
         public GameObject Goal;
+
+        [SerializeField]
+        private Transform agentCheckTransform;
+
 
         //list with all auxins in his personal space
         private List<Auxin> _auxins = new List<Auxin>();
@@ -57,6 +64,24 @@ namespace Biocrowds.Core
 
         //time elapsed (to calculate path just between an interval of time)
         private float _elapsedTime;
+
+        //acumulates the velocity that the agent prints
+        private float _velocityAcummulator;
+
+        //final agent velocity
+        public float AverageSpeed { get; private set; }
+
+        //agents last position
+        private Vector3 _lastPos;
+
+        //threshold that surronds the goal and defines an area where the agent changes his state to reached goal
+        private float _goalThreshold = 6f;    
+        
+        //defines that the original state of agents is not at goal
+        public bool _arrivedAtGoal {get; private set; } = false;
+        
+
+
         //auxins distance vector from agent
         public List<Vector3> _distAuxin;
 
@@ -64,7 +89,7 @@ namespace Biocrowds.Core
         private bool _isDenW = false; //  avoid recalculation
         private float _denW;    //  avoid recalculation
         private Vector3 _rotation; //orientation vector (movement)
-        private Vector3 _goalPosition; //goal position
+        public Vector3 _goalPosition; //goal position
         private Vector3 _dirAgentGoal; //diff between goal and agent
       
 
@@ -72,12 +97,14 @@ namespace Biocrowds.Core
         {
             _navMeshPath = new NavMeshPath();
 
-            _goalPosition = Goal.transform.position;
+            _goalPosition = Goal.transform.position;                                        // defines the goal as the goal tag position
             _dirAgentGoal = _goalPosition - transform.position;
 
             //cache world info
             _totalX = Mathf.FloorToInt(_world.Dimension.x / 2.0f) - 1;
             _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
+
+            _lastPos = transform.position;
         }
 
         void Update()
@@ -93,7 +120,7 @@ namespace Biocrowds.Core
                 _elapsedTime = 0.0f;
 
                 //calculate agent path
-               bool foundPath = NavMesh.CalculatePath(transform.position, Goal.transform.position, NavMesh.AllAreas, _navMeshPath);
+               bool foundPath = NavMesh.CalculatePath(transform.position, _goalPosition, NavMesh.AllAreas, _navMeshPath);
 
                 //update its goal if path is found
                 if (foundPath)
@@ -101,12 +128,32 @@ namespace Biocrowds.Core
                     _goalPosition = new Vector3(_navMeshPath.corners[1].x, 0f, _navMeshPath.corners[1].z);
                     _dirAgentGoal = _goalPosition - transform.position;
                 }
+
+
+                // defines what happens when the agent reaches the goal`s threshold
+                if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal){
+                    AverageSpeed = _velocityAcummulator / (World.Frame * World.SIMULATION_STEP);                                            //calculates the average speed based on the acummulated velocity / world frames converted to meters            
+                    Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );              
+                    _arrivedAtGoal = true;                                                                                                  //changes the agent`s status to arrived at goal
+                }
+
             }
 
             //draw line to goal
             for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
                 Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red);
         }
+
+
+        //function that defines the average
+        public void CalculateAverage(){
+            var delta = (transform.position - _lastPos).magnitude;                                                             //defines the distance delta
+
+            _velocityAcummulator = _velocityAcummulator + delta;                                                               //acummulates the velocity of the agent 
+
+            _lastPos = transform.position;                                                                                     //defines the agent`s last position
+        }
+
 
         //clear agent´s informations
         void ClearAgent()
@@ -123,7 +170,7 @@ namespace Biocrowds.Core
         public void Step()
         {
             if (_velocity.sqrMagnitude > 0.0f)
-                transform.Translate(_velocity * Time.deltaTime, Space.World);
+                transform.Translate(_velocity * World.SIMULATION_STEP, Space.World);
         }
 
         //The calculation formula starts here
@@ -203,13 +250,17 @@ namespace Biocrowds.Core
             {
                 //calculate speed vector
                 _velocity = s * (_rotation / moduleM);
+                Console.WriteLine(_velocity);
             }
             else
             {
                 //else, go idle
                 _velocity = Vector3.zero;
-            }
+            }   
         }
+
+
+           
 
         //find all auxins near him (Voronoi Diagram)
         //call this method from game controller, to make it sequential for each agent

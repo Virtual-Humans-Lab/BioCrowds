@@ -10,11 +10,16 @@ using System.Collections.Generic;
 using UnityEditor.AI;
 using System.Collections;
 using UnityEngine.AI;
+using System;
 
 namespace Biocrowds.Core
 {
     public class World : MonoBehaviour
+
     {
+
+        
+
         //agent radius
         private const float AGENT_RADIUS = 1.0f;
 
@@ -29,6 +34,12 @@ namespace Biocrowds.Core
 
         [SerializeField]
         private Transform _goal;
+
+        public List <GameObject> _goalList;
+
+
+        public float SIMULATION_STEP { get; private set; } = 1f / 30f;
+
 
         [SerializeField]
         private Vector2 _dimension = new Vector2(30.0f, 20.0f);
@@ -61,6 +72,9 @@ namespace Biocrowds.Core
         {
             get { return _cells; }
         }
+
+
+        public int Frame { get; private set; }
 
         //max auxins on the ground
         private int _maxAuxins;
@@ -136,8 +150,8 @@ namespace Biocrowds.Core
                 int flag = 0;
                 for (int i = 0; i < _maxAuxins; i++)
                 {
-                    float x = Random.Range(_cells[c].transform.position.x - 0.99f, _cells[c].transform.position.x + 0.99f);
-                    float z = Random.Range(_cells[c].transform.position.z - 0.99f, _cells[c].transform.position.z + 0.99f);
+                    float x = UnityEngine.Random.Range(_cells[c].transform.position.x - 0.99f, _cells[c].transform.position.x + 0.99f);
+                    float z = UnityEngine.Random.Range(_cells[c].transform.position.z - 0.99f, _cells[c].transform.position.z + 0.99f);
 
                     //see if there are auxins in this radius. if not, instantiante
                     List<Auxin> allAuxinsInCell = _cells[c].Auxins;
@@ -212,6 +226,7 @@ namespace Biocrowds.Core
             const float initialXPos = 1.0f;
             const float initialZPos = 1.0f;
 
+
             float xPos = initialXPos;
             float zPos = initialZPos;
 
@@ -223,7 +238,7 @@ namespace Biocrowds.Core
                 newAgent.name = "Agent [" + i + "]";  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
-                newAgent.Goal = _goal.gameObject;  //agent goal
+                newAgent.Goal = GameObject.FindGameObjectWithTag("Goal");   //really defines the agent's goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -253,6 +268,7 @@ namespace Biocrowds.Core
             //find nearest auxins for each agent
             for (int i = 0; i < _agents.Count; i++)
                 _agents[i].FindNearAuxins();
+
 
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
@@ -284,9 +300,35 @@ namespace Biocrowds.Core
                 _agents[i].CalculateDirection();
                 //calculate speed vector
                 _agents[i].CalculateVelocity();
+                //calculate average speed
+                _agents[i].CalculateAverage();
                 //step
                 _agents[i].Step();
+
+                
+
+              
             }
+            
+
+            // lines 315-333 exports the csv file
+            if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
+            {
+                WriteToFile();
+                Debug.Log("Write");
+            }
+
+            Frame++;
+
+        }
+        private void WriteToFile()
+        {
+            string content = "";
+            for (int i = 0; i < _agents.Count; i++)
+            {
+                content += _agents[i].AverageSpeed + ";\n";
+            }
+            System.IO.File.WriteAllText(Application.dataPath + @"/averagespeed.txt ", content);
         }
     }
 }

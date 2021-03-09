@@ -35,6 +35,7 @@ namespace Biocrowds.Core
         //min distance from a taken agent
         //when a new agent find it in his personal space, test the distance with this value to see which one is smaller
         private float _minDistance = 2.0f;
+
         public float MinDistance
         {
             get { return _minDistance; }
