@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -71,8 +71,8 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 2
-    m_BakeBackend: 0
+    m_MixedBakeMode: 0
+    m_BakeBackend: 2
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -97,8 +97,9 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingDataAsset: {fileID: 112000000, guid: 6316dc6a0c01966429465c5ba7e9f947,
+    type: 2}
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -120,7 +121,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: c6c2ddd071898dd4d91f1834334a15fc, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: b4bb7d58afdd0ca4792fe99a6b2f9e4b, type: 2}
 --- !u!1001 &147619861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,13 +133,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 9.915744
+      value: 21.013147
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalScale.y
@@ -150,7 +155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.42
+      value: 21.41
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -370,7 +375,7 @@ Transform:
   m_GameObject: {fileID: 881326670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.73085, y: 0.73085, z: 0.73085}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1354401592}
   m_RootOrder: 0
@@ -678,6 +683,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e557e1f7d8596b843b63c8e252d53612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentRadius: 1
+  _velocity: {x: 0, y: 0, z: 0}
+  _maxSpeed: 1.5
+  Goal: {fileID: 0}
+  agentCheckTransform: {fileID: 0}
+  _distAuxin: []
+  _goalPosition: {x: 0, y: 0, z: 0}
   controller: {fileID: 1354401591}
   speed: 2
 --- !u!143 &1354401591
@@ -705,15 +717,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354401589}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.75, y: 0.21, z: 6.14}
+  m_LocalRotation: {x: -0, y: 0.9985704, z: -0, w: -0.05345367}
+  m_LocalPosition: {x: 12.02, y: 0.21, z: 9.7}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 881326671}
   - {fileID: 1648599575}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 186.12799, z: 0}
 --- !u!1001 &1371130759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -771,6 +783,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
+      propertyPath: _goal.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
       propertyPath: _goal
       value: 
       objectReference: {fileID: 785060758}
@@ -783,11 +800,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _maxAgents
       value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
-        type: 3}
-      propertyPath: _goal.Array.size
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -804,6 +816,11 @@ PrefabInstance:
       propertyPath: _goal.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1354401590}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134c3d7ad423ae840acb9de2a7eb8dee, type: 3}
 --- !u!4 &1554952833 stripped
@@ -912,13 +929,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648599570}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.63213867, z: -0, w: 0.77485526}
   m_LocalPosition: {x: -0.025, y: 0.51, z: 0.02}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1354401592}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 78.416, z: 0}
 --- !u!218 &1653936138 stripped
 Terrain:
   m_CorrespondingSourceObject: {fileID: 218854879484532186, guid: 3bfc46f955c1b6442a2fec350cd939e3,
@@ -993,7 +1010,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1028,13 +1045,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclePrefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10.07436
+      value: 13.944929
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalScale.y

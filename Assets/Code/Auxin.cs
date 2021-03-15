@@ -12,6 +12,8 @@ namespace Biocrowds.Core
 {
     public class Auxin : MonoBehaviour
     {
+        
+
         //is auxin taken?
         private bool _isTaken = false;
         public bool IsTaken

@@ -15,7 +15,7 @@ namespace Biocrowds.Core
 {
     public class Agent : MonoBehaviour
     {
-        protected const float UPDATE_NAVMESH_INTERVAL = 1.0f;
+        protected const float UPDATE_NAVMESH_INTERVAL = 0.1f;
 
         //agent radius
         public float agentRadius;
@@ -113,7 +113,7 @@ namespace Biocrowds.Core
             ClearAgent();
             
             // Update the way to the goal every second.
-            _elapsedTime += Time.deltaTime;
+            _elapsedTime += World.SIMULATION_STEP;
 
             if (_elapsedTime > UPDATE_NAVMESH_INTERVAL)
             {
@@ -133,7 +133,7 @@ namespace Biocrowds.Core
                 // defines what happens when the agent reaches the goal`s threshold
                 if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal){
                     AverageSpeed = _velocityAcummulator / (World.Frame * World.SIMULATION_STEP);                                            //calculates the average speed based on the acummulated velocity / world frames converted to meters            
-                    Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );              
+                    //Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );              
                     _arrivedAtGoal = true;                                                                                                  //changes the agent`s status to arrived at goal
                 }
 

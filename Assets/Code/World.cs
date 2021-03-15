@@ -17,7 +17,8 @@ namespace Biocrowds.Core
     public class World : MonoBehaviour
 
     {
-
+        [SerializeField]
+        private PlayerMovement Player;
 
         public Dictionary<Vector2, Cell> posToCell { get; private set; }
 
@@ -108,32 +109,6 @@ namespace Biocrowds.Core
             yield return new WaitForSeconds(1.0f);
             _isReady = true;
         }
-        private void CreateCellsNow()
-        {
-            Transform cellPool = new GameObject("Cells").transform;
-
-            for (int i = 0; i < _dimension.x / 2; i++) //i + agentRadius * 2
-            {
-                for (int j = 0; j < _dimension.y / 2; j++) // j + agentRadius * 2
-                {
-                    //instantiante a new cell
-                    Cell newCell = Instantiate(_cellPrefab, new Vector3(1.0f + (i * 2.0f), 0.0f, 1.0f + (j * 2.0f)), Quaternion.Euler(90.0f, 0.0f, 0.0f), cellPool);
-
-                    //change its name
-                    newCell.name = "Cell [" + i + "][" + j + "]";
-
-                    //metadata for optimization
-                    newCell.X = i;
-                    newCell.Z = j;
-
-                    posToCell.Add(new Vector2(i, j), newCell);
-
-                    _cells.Add(newCell);
-
-                }
-            }
-        }
-
         private IEnumerator CreateCells()
         {
             Transform cellPool = new GameObject("Cells").transform;
@@ -156,9 +131,12 @@ namespace Biocrowds.Core
 
                     _cells.Add(newCell);
 
-                    yield return null;
+                    //yield return null;
                 }
             }
+
+            yield return null;
+
         }
 
         private IEnumerator DartThrowing()
@@ -229,9 +207,9 @@ namespace Biocrowds.Core
                         //reset the flag
                         flag = 0;
 
-                        //speed up the demonstration a little bit...
-                        if (i % 200 == 0)
-                            yield return null;
+                        ////speed up the demonstration a little bit...
+                        //if (i % 200 == 0)
+                        //    yield return null;
                     }
                     else
                     {
@@ -249,8 +227,12 @@ namespace Biocrowds.Core
                     }
                 }
             }
+
+            yield return null;
+
         }
 
+    
         private IEnumerator CreateAgents()
         {
             Transform agentPool = new GameObject("Agents").transform;
@@ -281,8 +263,10 @@ namespace Biocrowds.Core
                     zPos += 1.0f;
                 }
 
-                yield return null;
+                // yield return null;
             }
+
+            yield return null;
         }
 
         // Update is called once per frame
@@ -296,9 +280,15 @@ namespace Biocrowds.Core
                 for (int j = 0; j < _cells[i].Auxins.Count; j++)
                     _cells[i].Auxins[j].ResetAuxin();
 
+
+            Player.FindNearAuxins();
+
             //find nearest auxins for each agent
             for (int i = 0; i < _agents.Count; i++)
                 _agents[i].FindNearAuxins();
+
+
+
 
 
             /*

@@ -14,19 +14,25 @@ public class PlayerMovement : Agent
     void Start()
     {
         _world = GameObject.Find("WorldPrefab").GetComponent<World>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        _totalX = Mathf.FloorToInt(_world.Dimension.x / 2.0f) - 1;
+        _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
 
-        
+
         Vector2 cellPostion = new Vector2((int)Mathf.Floor(transform.position.x / 2.0f) * 2,
                                      (int)Mathf.Floor(transform.position.z / 2.0f) * 2);
 
         //Debug.Log(cellPostion);
         _currentCell = World.posToCell[cellPostion];
 
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -37,14 +43,12 @@ public class PlayerMovement : Agent
 
 
        
-        FindNearAuxins();
+        //FindNearAuxins();
 
         //vector for each auxin
         // draws the player's auxins
         for (int j = 0; j < _auxins.Count; j++)
         {
-            //add the distance vector between it and the agent
-            _distAuxin.Add(_auxins[j].Position - transform.position);
 
             //just draw the lines to each auxin
             Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
@@ -54,7 +58,7 @@ public class PlayerMovement : Agent
 
     //find all auxins near him (Voronoi Diagram)
     //call this method from game controller, to make it sequential for each agent
-    public void FindNearAuxins()
+    public new void FindNearAuxins()
     {
         //clear them all, for obvious reasons
         _auxins.Clear();
@@ -62,7 +66,7 @@ public class PlayerMovement : Agent
         //get all auxins on my cell
         List<Auxin> cellAuxins = _currentCell.Auxins;
 
-        Debug.Log(_currentCell.Auxins.Count);
+        //Debug.Log(_currentCell.Auxins.Count);
 
         //iterate all cell auxins to check distance between auxins and agent
         for (int i = 0; i < cellAuxins.Count; i++)
@@ -88,12 +92,12 @@ public class PlayerMovement : Agent
             }
         }
 
-        //Debug.Log(_auxins.Count);
+       
 
         FindCell();
     }
 
-    private void FindCell()
+    private new void FindCell()
     {
         //distance from agent to cell, to define agent new cell
         float distanceToCellSqr = (transform.position - _currentCell.transform.position).sqrMagnitude; //Vector3.Distance(transform.position, _currentCell.transform.position);
@@ -128,7 +132,7 @@ public class PlayerMovement : Agent
 
     }
 
-    private void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
+    private new void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
     {
         //get all auxins on neighbourcell
         List<Auxin> cellAuxins = pCell.Auxins;
@@ -155,6 +159,7 @@ public class PlayerMovement : Agent
                 _auxins.Add(cellAuxins[c]);
             }
         }
+
 
         //see distance to this cell
         float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude;
