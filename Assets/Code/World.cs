@@ -18,7 +18,8 @@ namespace Biocrowds.Core
 
     {
 
-        
+
+        public Dictionary<Vector2, Cell> posToCell { get; private set; }
 
         //agent radius
         private const float AGENT_RADIUS = 1.0f;
@@ -83,6 +84,9 @@ namespace Biocrowds.Core
         // Use this for initialization
         IEnumerator Start()
         {
+
+            posToCell = new Dictionary<Vector2, Cell>();
+
             //Application.runInBackground = true;
 
             //change terrain size according informed
@@ -104,6 +108,31 @@ namespace Biocrowds.Core
             yield return new WaitForSeconds(1.0f);
             _isReady = true;
         }
+        private void CreateCellsNow()
+        {
+            Transform cellPool = new GameObject("Cells").transform;
+
+            for (int i = 0; i < _dimension.x / 2; i++) //i + agentRadius * 2
+            {
+                for (int j = 0; j < _dimension.y / 2; j++) // j + agentRadius * 2
+                {
+                    //instantiante a new cell
+                    Cell newCell = Instantiate(_cellPrefab, new Vector3(1.0f + (i * 2.0f), 0.0f, 1.0f + (j * 2.0f)), Quaternion.Euler(90.0f, 0.0f, 0.0f), cellPool);
+
+                    //change its name
+                    newCell.name = "Cell [" + i + "][" + j + "]";
+
+                    //metadata for optimization
+                    newCell.X = i;
+                    newCell.Z = j;
+
+                    posToCell.Add(new Vector2(i, j), newCell);
+
+                    _cells.Add(newCell);
+
+                }
+            }
+        }
 
         private IEnumerator CreateCells()
         {
@@ -122,6 +151,8 @@ namespace Biocrowds.Core
                     //metadata for optimization
                     newCell.X = i;
                     newCell.Z = j;
+
+                    posToCell.Add(new Vector2(i, j), newCell);
 
                     _cells.Add(newCell);
 
@@ -312,23 +343,23 @@ namespace Biocrowds.Core
             
 
             // lines 315-333 exports the csv file
-            if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
-            {
-                WriteToFile();
-                Debug.Log("Write");
-            }
-
-            Frame++;
+           // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
+           // {
+           //     WriteToFile();
+           //     Debug.Log("Write");
+           // }
+        
+           Frame++;
 
         }
-        private void WriteToFile()
-        {
-            string content = "";
-            for (int i = 0; i < _agents.Count; i++)
-            {
-                content += _agents[i].AverageSpeed + ";\n";
-            }
-            System.IO.File.WriteAllText(Application.dataPath + @"/averagespeed.txt ", content);
-        }
+        //private void WriteToFile()
+        //{
+        //    string content = "";
+        //    for (int i = 0; i < _agents.Count; i++)
+        //    {
+        //        content += _agents[i].AverageSpeed + ";\n";
+        //    }
+        //    System.IO.File.WriteAllText(Application.dataPath + @"/averagespeed.txt ", content);
+        //}
     }
 }

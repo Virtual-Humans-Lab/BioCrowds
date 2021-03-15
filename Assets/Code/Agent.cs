@@ -15,7 +15,7 @@ namespace Biocrowds.Core
 {
     public class Agent : MonoBehaviour
     {
-        private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
+        protected const float UPDATE_NAVMESH_INTERVAL = 1.0f;
 
         //agent radius
         public float agentRadius;
@@ -25,17 +25,17 @@ namespace Biocrowds.Core
 
         //max speed
         [SerializeField]
-        private float _maxSpeed = 1.5f;
+        protected float _maxSpeed = 1.5f;
 
         //goal
         public GameObject Goal;
 
         [SerializeField]
-        private Transform agentCheckTransform;
+        protected Transform agentCheckTransform;
 
 
         //list with all auxins in his personal space
-        private List<Auxin> _auxins = new List<Auxin>();
+        protected List<Auxin> _auxins = new List<Auxin>();
         public List<Auxin> Auxins
         {
             get { return _auxins; }
@@ -43,42 +43,42 @@ namespace Biocrowds.Core
         }
 
         //agent cell
-        private Cell _currentCell;
+        protected Cell _currentCell;
         public Cell CurrentCell
         {
             get { return _currentCell; }
             set { _currentCell = value; }
         }
 
-        private World _world;
+        protected World _world;
         public World World
         {
             get { return _world; }
             set { _world = value; }
         }
 
-        private int _totalX;
-        private int _totalZ;
+        protected int _totalX;
+        protected int _totalZ;
 
-        private NavMeshPath _navMeshPath;
+        protected NavMeshPath _navMeshPath;
 
         //time elapsed (to calculate path just between an interval of time)
-        private float _elapsedTime;
+        protected float _elapsedTime;
 
         //acumulates the velocity that the agent prints
-        private float _velocityAcummulator;
+        protected float _velocityAcummulator;
 
         //final agent velocity
-        public float AverageSpeed { get; private set; }
+        public float AverageSpeed { get; protected set; }
 
         //agents last position
-        private Vector3 _lastPos;
+        protected Vector3 _lastPos;
 
         //threshold that surronds the goal and defines an area where the agent changes his state to reached goal
-        private float _goalThreshold = 6f;    
+        protected float _goalThreshold = 6f;    
         
         //defines that the original state of agents is not at goal
-        public bool _arrivedAtGoal {get; private set; } = false;
+        public bool _arrivedAtGoal {get; protected set; } = false;
         
 
 
@@ -86,11 +86,11 @@ namespace Biocrowds.Core
         public List<Vector3> _distAuxin;
 
         /*-----------Paravisis' model-----------*/
-        private bool _isDenW = false; //  avoid recalculation
-        private float _denW;    //  avoid recalculation
-        private Vector3 _rotation; //orientation vector (movement)
+        protected bool _isDenW = false; //  avoid recalculation
+        protected float _denW;    //  avoid recalculation
+        protected Vector3 _rotation; //orientation vector (movement)
         public Vector3 _goalPosition; //goal position
-        private Vector3 _dirAgentGoal; //diff between goal and agent
+        protected Vector3 _dirAgentGoal; //diff between goal and agent
       
 
         void Start()
@@ -299,7 +299,7 @@ namespace Biocrowds.Core
             FindCell();
         }
 
-        private void FindCell()
+        protected void FindCell()
         {
             //distance from agent to cell, to define agent new cell
             float distanceToCellSqr = (transform.position - _currentCell.transform.position).sqrMagnitude; //Vector3.Distance(transform.position, _currentCell.transform.position);
@@ -334,7 +334,7 @@ namespace Biocrowds.Core
 
         }
 
-        private void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
+        protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
         {
             //get all auxins on neighbourcell
             List<Auxin> cellAuxins = pCell.Auxins;
@@ -367,6 +367,8 @@ namespace Biocrowds.Core
             if (distanceToNeighbourCell < pDistToCellSqr)
             {
                 pDistToCellSqr = distanceToNeighbourCell;
+
+                //TODO: change the way we find the next cell, find it by the world position
                 _currentCell = pCell;
             }
         }
