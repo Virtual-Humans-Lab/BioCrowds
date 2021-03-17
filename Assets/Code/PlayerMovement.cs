@@ -8,7 +8,8 @@ public class PlayerMovement : Agent
 
     public CharacterController controller;
 
-    public float speed = 12f;
+    [SerializeField] private float Speed;
+    [SerializeField] private float LookSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -39,9 +40,9 @@ public class PlayerMovement : Agent
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        controller.Move(move * speed * World.SIMULATION_STEP);
+        controller.Move(move * Speed * World.SIMULATION_STEP);
 
-
+        //controller.
        
         //FindNearAuxins();
 

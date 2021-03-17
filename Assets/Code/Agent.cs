@@ -75,11 +75,11 @@ namespace Biocrowds.Core
         protected Vector3 _lastPos;
 
         //threshold that surronds the goal and defines an area where the agent changes his state to reached goal
-        protected float _goalThreshold = 6f;    
-        
+        protected float _goalThreshold = 6f;
+
         //defines that the original state of agents is not at goal
-        public bool _arrivedAtGoal {get; protected set; } = false;
-        
+        public bool _arrivedAtGoal { get; protected set; } = false;
+
 
 
         //auxins distance vector from agent
@@ -91,7 +91,7 @@ namespace Biocrowds.Core
         protected Vector3 _rotation; //orientation vector (movement)
         public Vector3 _goalPosition; //goal position
         protected Vector3 _dirAgentGoal; //diff between goal and agent
-      
+
 
         void Start()
         {
@@ -111,16 +111,19 @@ namespace Biocrowds.Core
         {
             //clear agent´s information
             ClearAgent();
-            
+
             // Update the way to the goal every second.
-            _elapsedTime += World.SIMULATION_STEP;
+            _elapsedTime += Time.deltaTime;
 
             if (_elapsedTime > UPDATE_NAVMESH_INTERVAL)
             {
                 _elapsedTime = 0.0f;
 
                 //calculate agent path
-               bool foundPath = NavMesh.CalculatePath(transform.position, _goalPosition, NavMesh.AllAreas, _navMeshPath);
+                bool foundPath = NavMesh.CalculatePath(transform.position, Goal.transform.position, NavMesh.AllAreas, _navMeshPath);
+
+
+
 
                 //update its goal if path is found
                 if (foundPath)
@@ -128,10 +131,12 @@ namespace Biocrowds.Core
                     _goalPosition = new Vector3(_navMeshPath.corners[1].x, 0f, _navMeshPath.corners[1].z);
                     _dirAgentGoal = _goalPosition - transform.position;
                 }
+               
 
 
                 // defines what happens when the agent reaches the goal`s threshold
-                if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal){
+                if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal)
+                {
                     AverageSpeed = _velocityAcummulator / (World.Frame * World.SIMULATION_STEP);                                            //calculates the average speed based on the acummulated velocity / world frames converted to meters            
                     //Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );              
                     _arrivedAtGoal = true;                                                                                                  //changes the agent`s status to arrived at goal
@@ -146,12 +151,15 @@ namespace Biocrowds.Core
 
 
         //function that defines the average
-        public void CalculateAverage(){
-            var delta = (transform.position - _lastPos).magnitude;                                                             //defines the distance delta
+        public void CalculateAverage()
+        {
+            var delta = (transform.position - _lastPos).magnitude;
+            //defines the distance delta
 
-            _velocityAcummulator = _velocityAcummulator + delta;                                                               //acummulates the velocity of the agent 
-
-            _lastPos = transform.position;                                                                                     //defines the agent`s last position
+            _velocityAcummulator = _velocityAcummulator + delta;
+            //acummulates the velocity of the agent 
+            _lastPos = transform.position;
+            //defines the agent`s last position
         }
 
 
@@ -159,6 +167,7 @@ namespace Biocrowds.Core
         void ClearAgent()
         {
             //re-set inicial values
+            
             _denW = 0;
             _distAuxin.Clear();
             _isDenW = false;
@@ -256,11 +265,11 @@ namespace Biocrowds.Core
             {
                 //else, go idle
                 _velocity = Vector3.zero;
-            }   
+            }
         }
 
 
-           
+
 
         //find all auxins near him (Voronoi Diagram)
         //call this method from game controller, to make it sequential for each agent
@@ -363,7 +372,7 @@ namespace Biocrowds.Core
             }
 
             //see distance to this cell
-            float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude; 
+            float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude;
             if (distanceToNeighbourCell < pDistToCellSqr)
             {
                 pDistToCellSqr = distanceToNeighbourCell;

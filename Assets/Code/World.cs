@@ -29,7 +29,8 @@ namespace Biocrowds.Core
         private const float AUXIN_RADIUS = 0.1f;
 
         //density
-        private const float AUXIN_DENSITY = 0.45f; //0.65f;
+        [SerializeField]
+        private float AUXIN_DENSITY = 0.45f; //0.65f;
 
         [SerializeField]
         private Terrain _terrain;
@@ -37,7 +38,7 @@ namespace Biocrowds.Core
         [SerializeField]
         private Transform _goal;
 
-        public List <GameObject> _goalList;
+        public List<GameObject> _goalList;
 
 
         public float SIMULATION_STEP { get; private set; } = 1f / 30f;
@@ -103,8 +104,9 @@ namespace Biocrowds.Core
             yield return StartCoroutine(CreateAgents());
 
             //build the navmesh at runtime
-            //NavMeshBuilder.BuildNavMesh();
-
+#if UNITY_EDITOR
+            UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
+#endif
             //wait a little bit to start moving
             yield return new WaitForSeconds(1.0f);
             _isReady = true;
@@ -232,7 +234,7 @@ namespace Biocrowds.Core
 
         }
 
-    
+
         private IEnumerator CreateAgents()
         {
             Transform agentPool = new GameObject("Agents").transform;
@@ -251,7 +253,7 @@ namespace Biocrowds.Core
                 newAgent.name = "Agent [" + i + "]";  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
-                newAgent.Goal = GameObject.FindGameObjectWithTag("Goal");   //really defines the agent's goal
+                newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -326,20 +328,20 @@ namespace Biocrowds.Core
                 //step
                 _agents[i].Step();
 
-                
 
-              
+
+
             }
-            
+
 
             // lines 315-333 exports the csv file
-           // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
-           // {
-           //     WriteToFile();
-           //     Debug.Log("Write");
-           // }
-        
-           Frame++;
+            // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
+            // {
+            //     WriteToFile();
+            //     Debug.Log("Write");
+            // }
+
+            Frame++;
 
         }
         //private void WriteToFile()

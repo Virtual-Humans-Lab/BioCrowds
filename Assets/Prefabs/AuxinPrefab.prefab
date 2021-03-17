@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33724009719664622}
   - component: {fileID: 23508651956020996}
   - component: {fileID: 114037783865560150}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AuxinPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
