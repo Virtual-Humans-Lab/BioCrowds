@@ -641,7 +641,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 64.2
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -666,13 +666,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265801845}
-  m_LocalRotation: {x: 0.4859128, y: -0, z: -0, w: 0.8740073}
-  m_LocalPosition: {x: 14.35, y: 18.16, z: 0.089999676}
+  m_LocalRotation: {x: 0.49847302, y: -0, z: -0, w: 0.8669053}
+  m_LocalPosition: {x: 14.35, y: 20.57, z: -0.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 58.145004, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 59.798004, y: 0, z: 0}
 --- !u!1 &1354401589
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,8 +711,7 @@ MonoBehaviour:
   _distAuxin: []
   _goalPosition: {x: 0, y: 0, z: 0}
   controller: {fileID: 1354401591}
-  Speed: 1
-  LookSpeed: 1
+  speed: 1
 --- !u!143 &1354401591
 CharacterController:
   m_ObjectHideFlags: 0
@@ -804,14 +803,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
-      propertyPath: _goal.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
-        type: 3}
       propertyPath: _goal
       value: 
       objectReference: {fileID: 785060758}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1354401590}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
       propertyPath: _terrain
@@ -821,6 +820,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _maxAgents
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _goal.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -843,11 +847,6 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1354401590}
-    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
-        type: 3}
-      propertyPath: AUXIN_DENSITY
-      value: 0.65
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134c3d7ad423ae840acb9de2a7eb8dee, type: 3}
 --- !u!4 &1554952833 stripped
@@ -1054,13 +1053,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1672430819}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: -1.27, y: 3, z: 5.44}
+  m_LocalRotation: {x: 0.4301896, y: -0.2366273, z: 0.10470223, w: 0.8648595}
+  m_LocalPosition: {x: -1.27, y: 5.57, z: 5.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 52.529003, y: -31.649002, z: -2.118}
 --- !u!1001 &1759788921
 PrefabInstance:
   m_ObjectHideFlags: 0
