@@ -145,8 +145,8 @@ namespace Biocrowds.Core
             }
 
             //draw line to goal
-            for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
-                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red);
+            //for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
+            //    Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red);
         }
 
 

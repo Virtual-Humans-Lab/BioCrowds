@@ -91,6 +91,9 @@ namespace Biocrowds.Core
 
             //Application.runInBackground = true;
 
+            
+
+
             //change terrain size according informed
             _terrain.terrainData.size = new Vector3(_dimension.x, _terrain.terrainData.size.y, _dimension.y);
 

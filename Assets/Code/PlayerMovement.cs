@@ -40,7 +40,7 @@ public class PlayerMovement : Agent
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        controller.Move(move * Speed * World.SIMULATION_STEP);
+        transform.position += move * Speed * World.SIMULATION_STEP;
 
         //controller.
        
