@@ -20,9 +20,8 @@ namespace Biocrowds.Core
 
         public static World instance;
 
-
-        [SerializeField]
-        public PlayerMovement Player;
+        [field: SerializeField]
+        public PlayerController Player { get; private set; }
 
         public Dictionary<Vector2, Cell> posToCell { get; private set; }
 
@@ -43,12 +42,6 @@ namespace Biocrowds.Core
         private Transform _goal;
 
         public List<GameObject> _goalList;
-
-        [SerializeField] private Transform playerTransform;
-        public Transform _psArea;
-        public GameObject _PlayerPrefab;
-
-
         public float SIMULATION_STEP { get; private set; } = 1f / 30f;
 
 
@@ -94,8 +87,15 @@ namespace Biocrowds.Core
         // Use this for initialization
         IEnumerator Start()
         {
-            Spawnplayer();
-
+            if(instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                Debug.LogWarning("The World Script " + gameObject.name + " was destroyed");
+            }
 
             posToCell = new Dictionary<Vector2, Cell>();
 
@@ -261,9 +261,9 @@ namespace Biocrowds.Core
 
                 newAgent.name = "Agent [" + i + "]";  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
-                newAgent.agentRadius = AGENT_RADIUS;  //agent radius
+                //newAgent.agentRadius = AGENT_RADIUS;  //agent radius
                 newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
-                newAgent.World = this;
+             
 
                 _agents.Add(newAgent);
 
@@ -280,24 +280,24 @@ namespace Biocrowds.Core
             yield return null;
         }
 
-        public void Spawnplayer()
-        {
-            Debug.Log("Player Spawned");
-            GameObject player = Spawn();
-            Player = player.GetComponent<PlayerMovement>();
+        //public void Spawnplayer()
+        //{
+        //    Debug.Log("Player Spawned");
+        //    GameObject player = Spawn();
+        //    Player = player.GetComponent<PlayerMovement>();
 
-            //Player.Goal = _goal.gameObject;
+        //    //Player.Goal = _goal.gameObject;
 
              
 
-            playerTransform = player.transform;
-        }
+        //    playerTransform = player.transform;
+        //}
 
 
-        public GameObject Spawn()
-        {
-            return Instantiate(_PlayerPrefab, _psArea.transform.position, Quaternion.identity);
-        }
+        //public GameObject Spawn()
+        //{
+        //    return Instantiate(_PlayerPrefab, _psArea.transform.position, Quaternion.identity);
+        //}
 
         // Update is called once per frame
         void Update()
@@ -328,7 +328,7 @@ namespace Biocrowds.Core
                 Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
 
                 //just draw the lines to each auxin
-                Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+                //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
             }
 
             Player.CalculateDirection();
@@ -348,31 +348,18 @@ namespace Biocrowds.Core
             */
             for (int i = 0; i < _maxAgents; i++)
             {
-                //find the agent
                 agentAuxins = _agents[i].Auxins;
 
-                //vector for each auxin
                 for (int j = 0; j < agentAuxins.Count; j++)
                 {
-                    //add the distance vector between it and the agent
                     _agents[i]._distAuxin.Add(agentAuxins[j].Position - _agents[i].transform.position);
-
-                    //just draw the lines to each auxin
                     Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
                 }
 
-                //calculate the movement vector
                 _agents[i].CalculateDirection();
-                //calculate speed vector
                 _agents[i].CalculateVelocity();
-                //calculate average speed
                 _agents[i].CalculateAverage();
-                //step
                 _agents[i].Step();
-
-
-
-
 
             }
 

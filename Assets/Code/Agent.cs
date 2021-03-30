@@ -18,10 +18,10 @@ namespace Biocrowds.Core
         protected const float UPDATE_NAVMESH_INTERVAL = 0.1f;
 
         //agent radius
-        public float agentRadius;
+        protected float agentRadius { get; private set; } = 1f;
 
         //agent speed
-        public Vector3 _velocity;
+        protected Vector3 _velocity { get; private set; }
 
         //max speed
         [SerializeField]
@@ -51,11 +51,7 @@ namespace Biocrowds.Core
         }
 
         protected World _world;
-        public World World
-        {
-            get { return _world; }
-            set { _world = value; }
-        }
+      
 
         protected int _totalX;
         protected int _totalZ;
@@ -78,7 +74,7 @@ namespace Biocrowds.Core
         protected float _goalThreshold = 6f;
 
         //defines that the original state of agents is not at goal
-        public bool _arrivedAtGoal { get; protected set; } = false;
+        protected bool _arrivedAtGoal { get; set; } = false;
 
 
 
@@ -97,7 +93,9 @@ namespace Biocrowds.Core
         {
             _navMeshPath = new NavMeshPath();
 
-            _goalPosition = Goal.transform.position;                                        // defines the goal as the goal tag position
+            _world = World.instance;
+
+            _goalPosition = Goal.transform.position; // defines the goal as the goal tag position
             _dirAgentGoal = _goalPosition - transform.position;
 
             //cache world info
@@ -136,10 +134,13 @@ namespace Biocrowds.Core
 
                 // defines what happens when the agent reaches the goal`s threshold
                 if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal)
-                {
-                    AverageSpeed = _velocityAcummulator / (World.Frame * World.SIMULATION_STEP);                                            //calculates the average speed based on the acummulated velocity / world frames converted to meters            
-                    //Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );              
-                    _arrivedAtGoal = true;                                                                                                  //changes the agent`s status to arrived at goal
+                { 
+                    //calculates the average speed based on the acummulated velocity / world frames converted to meters            
+                    AverageSpeed = _velocityAcummulator / (_world.Frame * _world.SIMULATION_STEP);
+
+                    //Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );
+                    //changes the agent`s status to arrived at goal
+                    _arrivedAtGoal = true; 
                 }
 
             }
@@ -179,7 +180,7 @@ namespace Biocrowds.Core
         public void Step()
         {
             if (_velocity.sqrMagnitude > 0.0f)
-                transform.Translate(_velocity * World.SIMULATION_STEP, Space.World);
+                transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
             
         }
