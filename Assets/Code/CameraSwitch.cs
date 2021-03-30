@@ -14,10 +14,14 @@ public class CameraSwitch : MonoBehaviour
     void Start()
     {
 
-        //Get Camera Listeners
-        cameraOneAudioLis = cameraOne.GetComponent<AudioListener>();
-        cameraTwoAudioLis = cameraTwo.GetComponent<AudioListener>();
+        Biocrowds.Core.World _world = GameObject.Find("WorldPrefab").GetComponent<Biocrowds.Core.World>();
 
+        //Debug.Log(_world);
+        //Debug.Log(_world.Player);
+        //Debug.Log(_world.Player.camera);
+
+        cameraOne = _world.Player.camera.gameObject;
+       
         //Camera Position Set
         cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
     }
@@ -38,7 +42,7 @@ public class CameraSwitch : MonoBehaviour
     //Change Camera Keyboard
     void switchCamera()
     {
-        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             cameraChangeCounter();
         }
@@ -66,22 +70,17 @@ public class CameraSwitch : MonoBehaviour
         //Set camera position 1
         if (camPosition == 0)
         {
-            cameraOne.SetActive(true);
-            cameraOneAudioLis.enabled = true;
-
-            cameraTwoAudioLis.enabled = false;
+            cameraOne.SetActive(true);          
+            
             cameraTwo.SetActive(false);
         }
 
         //Set camera position 2
         if (camPosition == 1)
         {
-            cameraTwo.SetActive(true);
-            cameraTwoAudioLis.enabled = true;
-
-            cameraOneAudioLis.enabled = false;
+            cameraTwo.SetActive(true);            
+            
             cameraOne.SetActive(false);
         }
-
     }
 }
