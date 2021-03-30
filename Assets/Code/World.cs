@@ -17,6 +17,10 @@ namespace Biocrowds.Core
     public class World : MonoBehaviour
 
     {
+
+        public static World instance;
+
+
         [SerializeField]
         private PlayerMovement Player;
 
@@ -87,12 +91,8 @@ namespace Biocrowds.Core
         IEnumerator Start()
         {
 
+
             posToCell = new Dictionary<Vector2, Cell>();
-
-            //Application.runInBackground = true;
-
-            
-
 
             //change terrain size according informed
             _terrain.terrainData.size = new Vector3(_dimension.x, _terrain.terrainData.size.y, _dimension.y);
