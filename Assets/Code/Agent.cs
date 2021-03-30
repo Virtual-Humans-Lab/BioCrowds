@@ -93,7 +93,7 @@ namespace Biocrowds.Core
         protected Vector3 _dirAgentGoal; //diff between goal and agent
 
 
-        void Start()
+        public void Start()
         {
             _navMeshPath = new NavMeshPath();
 
@@ -164,7 +164,7 @@ namespace Biocrowds.Core
 
 
         //clear agent´s informations
-        void ClearAgent()
+        public void ClearAgent()
         {
             //re-set inicial values
             
@@ -180,6 +180,8 @@ namespace Biocrowds.Core
         {
             if (_velocity.sqrMagnitude > 0.0f)
                 transform.Translate(_velocity * World.SIMULATION_STEP, Space.World);
+
+            
         }
 
         //The calculation formula starts here
@@ -266,6 +268,11 @@ namespace Biocrowds.Core
                 //else, go idle
                 _velocity = Vector3.zero;
             }
+
+            //if (gameObject.tag == "Player")
+            //{
+            //    Debug.Log(_velocity);
+            //}
         }
 
 

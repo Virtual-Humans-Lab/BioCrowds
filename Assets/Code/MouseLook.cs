@@ -23,7 +23,7 @@ public class MouseLook : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;            //defines the input o the y axis
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -60f, 90f);                                          //locks the roatation so that you cant brea kthe player's neck
+        xRotation = Mathf.Clamp(xRotation, -60f, 90f);                                          //locks the roatation so that you cant break the player's neck
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);

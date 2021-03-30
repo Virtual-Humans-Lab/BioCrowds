@@ -18,7 +18,7 @@ namespace Biocrowds.Core
 
     {
         [SerializeField]
-        private PlayerMovement Player;
+        public PlayerMovement Player;
 
         public Dictionary<Vector2, Cell> posToCell { get; private set; }
 
@@ -39,6 +39,10 @@ namespace Biocrowds.Core
         private Transform _goal;
 
         public List<GameObject> _goalList;
+
+        [SerializeField] private Transform playerTransform;
+        public Transform _psArea;
+        public GameObject _PlayerPrefab;
 
 
         public float SIMULATION_STEP { get; private set; } = 1f / 30f;
@@ -86,6 +90,7 @@ namespace Biocrowds.Core
         // Use this for initialization
         IEnumerator Start()
         {
+            Spawnplayer();
 
             posToCell = new Dictionary<Vector2, Cell>();
 
@@ -107,12 +112,13 @@ namespace Biocrowds.Core
             yield return StartCoroutine(CreateAgents());
 
             //build the navmesh at runtime
-#if UNITY_EDITOR
+#if         UNITY_EDITOR
             UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
 #endif
             //wait a little bit to start moving
             yield return new WaitForSeconds(1.0f);
             _isReady = true;
+       
         }
         private IEnumerator CreateCells()
         {
@@ -274,6 +280,25 @@ namespace Biocrowds.Core
             yield return null;
         }
 
+        public void Spawnplayer()
+        {
+            Debug.Log("Player Spawned");
+            GameObject player = Spawn();
+            Player = player.GetComponent<PlayerMovement>();
+
+            //Player.Goal = _goal.gameObject;
+
+             
+
+            playerTransform = player.transform;
+        }
+
+
+        public GameObject Spawn()
+        {
+            return Instantiate(_PlayerPrefab, _psArea.transform.position, Quaternion.identity);
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -293,8 +318,22 @@ namespace Biocrowds.Core
                 _agents[i].FindNearAuxins();
 
 
+            //find the agent
+            List<Auxin> agentAuxins = Player.Auxins;
 
+            //vector for each auxin
+            for (int j = 0; j < agentAuxins.Count; j++)
+            {
+                //add the distance vector between it and the agent
+                Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
 
+                //just draw the lines to each auxin
+                Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+            }
+
+            Player.CalculateDirection();
+            Player.CalculateVelocity();
+            Player.PlayerStep();
 
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
@@ -310,7 +349,7 @@ namespace Biocrowds.Core
             for (int i = 0; i < _maxAgents; i++)
             {
                 //find the agent
-                List<Auxin> agentAuxins = _agents[i].Auxins;
+                agentAuxins = _agents[i].Auxins;
 
                 //vector for each auxin
                 for (int j = 0; j < agentAuxins.Count; j++)
@@ -330,6 +369,7 @@ namespace Biocrowds.Core
                 _agents[i].CalculateAverage();
                 //step
                 _agents[i].Step();
+
 
 
 

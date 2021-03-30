@@ -5,16 +5,19 @@ using UnityEngine;
 
 public class PlayerMovement : Agent
 {
-
-    public CharacterController controller;
-
     [SerializeField] private float Speed;
     [SerializeField] private float LookSpeed;
+
+    public Camera camera;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        
         _world = GameObject.Find("WorldPrefab").GetComponent<World>();
+
+        base.Start();
 
         _totalX = Mathf.FloorToInt(_world.Dimension.x / 2.0f) - 1;
         _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
@@ -24,23 +27,24 @@ public class PlayerMovement : Agent
                                      (int)Mathf.Floor(transform.position.z / 2.0f) * 2);
 
         //Debug.Log(cellPostion);
-        _currentCell = World.posToCell[cellPostion];
-
-
+        _currentCell = World.posToCell[cellPostion];        
     }
+
+   
 
     // Update is called once per frame
     void Update()
     {
+        base.ClearAgent();
 
-    
+        _goalPosition = Goal.transform.position;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        transform.position += move * Speed * World.SIMULATION_STEP;
+        Goal.transform.localPosition = move*5;
 
         //controller.
        
@@ -97,6 +101,18 @@ public class PlayerMovement : Agent
 
         FindCell();
     }
+
+    public void PlayerStep()
+    {
+        if (_velocity.sqrMagnitude > 0.0f)
+        {
+            transform.position += (_velocity * World.SIMULATION_STEP);
+
+            Debug.Log(_velocity);
+        }
+        Debug.Log(_velocity);
+    }
+
 
     private new void FindCell()
     {
