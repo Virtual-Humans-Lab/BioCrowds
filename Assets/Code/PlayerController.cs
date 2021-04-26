@@ -41,11 +41,14 @@ public class PlayerController : Agent
 
         Vector3 move = transform.right * x + transform.forward * z;
 
+        _arrivedAtGoal = false;
+
 
         if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal)
         {
             _arrivedAtGoal = true;
         }
+
 
         if (move != Vector3.zero)
         {
@@ -111,6 +114,12 @@ public class PlayerController : Agent
 
     public void PlayerStep()
     {
+        if (_arrivedAtGoal)
+        {
+            return;
+        }
+
+
         if (_velocity.sqrMagnitude > 0.0f)
         {
             transform.position += (_velocity * _world.SIMULATION_STEP);
