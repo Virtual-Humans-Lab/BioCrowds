@@ -22,7 +22,7 @@ namespace Biocrowds.Core
 
         //agent speed
         protected Vector3 _velocity { get; private set; }
-
+        //a
         //max speed
         [SerializeField]
         protected float _maxSpeed = 1.5f;
