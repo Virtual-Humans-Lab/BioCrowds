@@ -23,6 +23,9 @@ namespace Biocrowds.Core
         //agent speed
         protected Vector3 _velocity { get; private set; }
 
+        //speed rotation
+        public float rotationSpeed;
+
         //max speed
         [SerializeField]
         protected float _maxSpeed = 1.5f;
@@ -87,6 +90,7 @@ namespace Biocrowds.Core
         protected Vector3 _rotation; //orientation vector (movement)
         public Vector3 _goalPosition; //goal position
         protected Vector3 _dirAgentGoal; //diff between goal and agent
+
 
 
         public void Start()
@@ -182,7 +186,15 @@ namespace Biocrowds.Core
             if (_velocity.sqrMagnitude > 0.0f)
                 transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
-            
+            Vector3 movementDirection = transform.position;
+            movementDirection.Normalize();
+
+         
+            if (movementDirection!= Vector3.zero)
+            {
+                Quaternion toRotation = Quaternion.LookRotation(_rotation, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * _world.SIMULATION_STEP);
+            } 
         }
 
         //The calculation formula starts here

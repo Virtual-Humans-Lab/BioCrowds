@@ -282,7 +282,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.54
+      value: 14.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
         type: 3}
@@ -292,7 +292,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.33
+      value: 17.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
         type: 3}
@@ -890,7 +890,7 @@ PrefabInstance:
     - target: {fileID: 3657043907482795727, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.7573
+      value: 5.2606115
       objectReference: {fileID: 0}
     - target: {fileID: 3657043907482795727, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
@@ -900,7 +900,7 @@ PrefabInstance:
     - target: {fileID: 3657043907482795727, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.127
       objectReference: {fileID: 0}
     - target: {fileID: 3657043907482795727, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
@@ -922,10 +922,15 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 65
       objectReference: {fileID: 0}
+    - target: {fileID: 6257997690532351998, guid: 80e827a62aa38da4680f69f47e7a4f44,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 8423113675055453143, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8423113675055453143, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}

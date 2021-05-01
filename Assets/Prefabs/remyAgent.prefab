@@ -2613,7 +2613,7 @@ GameObject:
   - component: {fileID: 3612443818686775286}
   - component: {fileID: 4897865992422296962}
   m_Layer: 0
-  m_Name: remy_agent
+  m_Name: remyAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2653,6 +2653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d2b8f3314338043bb3e655dc2e17fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 200
   _maxSpeed: 1.5
   Goal: {fileID: 0}
   agentCheckTransform: {fileID: 0}
