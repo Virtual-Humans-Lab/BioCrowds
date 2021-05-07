@@ -634,7 +634,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _agentPrefab
       value: 
-      objectReference: {fileID: 4897865992422296962, guid: 76ef2e65b912fda46ac7ea83f4962e09,
+      objectReference: {fileID: 7898114416483324986, guid: 45bcad05c90b0c04089e731267e7fed2,
         type: 3}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -782,7 +782,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_Name
-      value: ObstaclePrefab (1)
+      value: ObstaclePrefab
       objectReference: {fileID: 0}
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_NavMeshLayer

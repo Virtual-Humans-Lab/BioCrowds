@@ -24,8 +24,7 @@ namespace Biocrowds.Core
         //agent speed
         protected Vector3 _velocity { get; private set; }
 
-        //speed rotation
-        public float rotationSpeed;
+  
 
         //max speed
         [SerializeField]
@@ -94,7 +93,7 @@ namespace Biocrowds.Core
 
 
 
-        public void Start()
+        protected void Start()
         {
             _navMeshPath = new NavMeshPath();
 
@@ -110,7 +109,7 @@ namespace Biocrowds.Core
             _lastPos = transform.position;
         }
 
-        void Update()
+        protected void Update()
         {
             //clear agent´s information
             ClearAgent();
@@ -187,16 +186,7 @@ namespace Biocrowds.Core
             if (_velocity.sqrMagnitude > 0.0f)
                 transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
-            //Vector3 movementDirection = transform.position ;
-            //movementDirection.Normalize();
-
            
-         
-            //if (movementDirection != Vector3.zero)
-            //{
-            //    Quaternion toRotation = Quaternion.LookRotation(_rotation, Vector3.up);
-            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * _world.SIMULATION_STEP);
-            //} 
         }
 
         //The calculation formula starts here
@@ -224,7 +214,7 @@ namespace Biocrowds.Core
         }
 
         //calculate W
-        float CalculaW(int indiceRelacao)
+        protected virtual float CalculaW(int indiceRelacao)
         {
             //calculate F (F is part of weight formula)
             float fVal = GetF(indiceRelacao);

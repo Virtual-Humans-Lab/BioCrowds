@@ -361,10 +361,8 @@ namespace Biocrowds.Core
                 for (int j = 0; j < agentAuxins.Count; j++)
                 {
                     _agents[i]._distAuxin.Add(agentAuxins[j].Position - _agents[i].transform.position);
-                    Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
+                    //Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
                 }
-
-
 
                 _agents[i].CalculateDirection();
                 _agents[i].CalculateVelocity();
