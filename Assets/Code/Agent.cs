@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using System;
+using UnityEngine.Profiling;
 
 namespace Biocrowds.Core
 {
@@ -186,15 +187,16 @@ namespace Biocrowds.Core
             if (_velocity.sqrMagnitude > 0.0f)
                 transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
-            Vector3 movementDirection = transform.position;
-            movementDirection.Normalize();
+            //Vector3 movementDirection = transform.position ;
+            //movementDirection.Normalize();
 
+           
          
-            if (movementDirection!= Vector3.zero)
-            {
-                Quaternion toRotation = Quaternion.LookRotation(_rotation, Vector3.up);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * _world.SIMULATION_STEP);
-            } 
+            //if (movementDirection != Vector3.zero)
+            //{
+            //    Quaternion toRotation = Quaternion.LookRotation(_rotation, Vector3.up);
+            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * _world.SIMULATION_STEP);
+            //} 
         }
 
         //The calculation formula starts here
@@ -204,6 +206,8 @@ namespace Biocrowds.Core
         //distance of the auxin from the agent
         public void CalculateDirection()
         {
+
+
             //for each agent´s auxin
             for (int k = 0; k < _distAuxin.Count; k++)
             {
@@ -215,6 +219,8 @@ namespace Biocrowds.Core
                 //sum the resulting vector * weight (Wk*Dk)
                 _rotation += valorW * _distAuxin[k] * _maxSpeed;
             }
+
+
         }
 
         //calculate W
@@ -238,16 +244,9 @@ namespace Biocrowds.Core
 
             //Debug.Log(gameObject.name);
 
-            int index = int.Parse(gameObject.name);
+       
 
-            float mult = 1;
-
-            if(index <= 10)
-            {
-                //mult = 0.5f;
-            }
-
-            return (fVal / _denW) * mult;
+            return (fVal / _denW);
         }
 
         //calculate F (F is part of weight formula)

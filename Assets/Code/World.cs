@@ -11,6 +11,7 @@ using UnityEditor.AI;
 using System.Collections;
 using UnityEngine.AI;
 using System;
+using UnityEngine.Profiling;
 
 namespace Biocrowds.Core
 {
@@ -274,10 +275,7 @@ namespace Biocrowds.Core
                     zPos += 1.0f;
                 }
 
-                if( i <= 10)
-                {
-                    newAgent.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.red);
-                }
+
 
                 // yield return null;
             }
@@ -315,30 +313,33 @@ namespace Biocrowds.Core
                 for (int j = 0; j < _cells[i].Auxins.Count; j++)
                     _cells[i].Auxins[j].ResetAuxin();
 
+            //Profiler.BeginSample("FindNearAuxins");
 
-            //Player.FindNearAuxins();
+
+            Player.FindNearAuxins();
 
             //find nearest auxins for each agent
             for (int i = 0; i < _agents.Count; i++)
                 _agents[i].FindNearAuxins();
 
+            //Profiler.EndSample();
 
             //find the agent
             List<Auxin> agentAuxins = Player.Auxins;
 
             //vector for each auxin
-            //for (int j = 0; j < agentAuxins.Count; j++)
-            //{
-            //    //add the distance vector between it and the agent
-            //    Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
+            for (int j = 0; j < agentAuxins.Count; j++)
+            {
+                //add the distance vector between it and the agent
+                Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
 
-            //    //just draw the lines to each auxin
-            //    //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
-            //}
+                //just draw the lines to each auxin
+                //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+            }
 
-            //Player.CalculateDirection();
-            //Player.CalculateVelocity();
-            //Player.PlayerStep();
+            Player.CalculateDirection();
+            Player.CalculateVelocity();
+            Player.PlayerStep();
 
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
@@ -351,6 +352,8 @@ namespace Biocrowds.Core
             3 - calculate speed vector 
             4 - step
             */
+
+
             for (int i = 0; i < _maxAgents; i++)
             {
                 agentAuxins = _agents[i].Auxins;
@@ -361,10 +364,13 @@ namespace Biocrowds.Core
                     Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
                 }
 
+
+
                 _agents[i].CalculateDirection();
                 _agents[i].CalculateVelocity();
                 _agents[i].CalculateAverage();
                 _agents[i].Step();
+
 
             }
 

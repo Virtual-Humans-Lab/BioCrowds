@@ -339,6 +339,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: remy
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: 416a6d05dba06ff4cbf812ffc5ac0b62,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.size
@@ -623,7 +628,7 @@ PrefabInstance:
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
       propertyPath: _maxAgents
-      value: 35
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -712,7 +717,7 @@ Light:
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 3
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -983,7 +988,7 @@ PrefabInstance:
     - target: {fileID: 6752845410819249573, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
