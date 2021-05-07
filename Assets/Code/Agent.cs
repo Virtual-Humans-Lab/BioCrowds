@@ -236,7 +236,18 @@ namespace Biocrowds.Core
                 _isDenW = true;
             }
 
-            return fVal / _denW;
+            //Debug.Log(gameObject.name);
+
+            int index = int.Parse(gameObject.name);
+
+            float mult = 1;
+
+            if(index <= 10)
+            {
+                //mult = 0.5f;
+            }
+
+            return (fVal / _denW) * mult;
         }
 
         //calculate F (F is part of weight formula)

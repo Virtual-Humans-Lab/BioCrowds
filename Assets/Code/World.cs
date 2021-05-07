@@ -259,7 +259,7 @@ namespace Biocrowds.Core
             {
                 Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0.5f, zPos), Quaternion.identity, agentPool);
 
-                newAgent.name = "Agent [" + i + "]";  //name
+                newAgent.name = i.ToString();  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 //newAgent.agentRadius = AGENT_RADIUS;  //agent radius
                 newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
@@ -272,6 +272,11 @@ namespace Biocrowds.Core
                 {
                     xPos = initialXPos;
                     zPos += 1.0f;
+                }
+
+                if( i <= 10)
+                {
+                    newAgent.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.red);
                 }
 
                 // yield return null;
@@ -311,7 +316,7 @@ namespace Biocrowds.Core
                     _cells[i].Auxins[j].ResetAuxin();
 
 
-            Player.FindNearAuxins();
+            //Player.FindNearAuxins();
 
             //find nearest auxins for each agent
             for (int i = 0; i < _agents.Count; i++)
@@ -322,18 +327,18 @@ namespace Biocrowds.Core
             List<Auxin> agentAuxins = Player.Auxins;
 
             //vector for each auxin
-            for (int j = 0; j < agentAuxins.Count; j++)
-            {
-                //add the distance vector between it and the agent
-                Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
+            //for (int j = 0; j < agentAuxins.Count; j++)
+            //{
+            //    //add the distance vector between it and the agent
+            //    Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
 
-                //just draw the lines to each auxin
-                //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
-            }
+            //    //just draw the lines to each auxin
+            //    //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+            //}
 
-            Player.CalculateDirection();
-            Player.CalculateVelocity();
-            Player.PlayerStep();
+            //Player.CalculateDirection();
+            //Player.CalculateVelocity();
+            //Player.PlayerStep();
 
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
