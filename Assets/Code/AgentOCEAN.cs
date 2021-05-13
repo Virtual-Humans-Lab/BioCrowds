@@ -42,7 +42,7 @@ namespace Biocrowds.Emotion
 
         private float CalculateExtraversionFactor()
         {
-            return _emotionProfile.Extraversion;
+            return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
         }
 
         protected override float CalculaW(int indiceRelacao)
@@ -55,7 +55,7 @@ namespace Biocrowds.Emotion
 
 
         }
-            
+
 
     }
 
