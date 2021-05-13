@@ -3925,6 +3925,7 @@ GameObject:
   - component: {fileID: 6588791891337595731}
   - component: {fileID: 223397130284613427}
   - component: {fileID: 7898114416483324986}
+  - component: {fileID: -1890695908671288301}
   m_Layer: 0
   m_Name: AgentOCEANPrefab
   m_TagString: Untagged
@@ -3979,7 +3980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a38210deb00e17147a5b9272e43ab4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 40.12
   _maxSpeed: 1.5
   Goal: {fileID: 0}
   agentCheckTransform: {fileID: 0}
@@ -3991,6 +3991,25 @@ MonoBehaviour:
     Extraversion: 0
     Aggreableness: 0
     Neuroticism: 0
+--- !u!1818360609 &-1890695908671288301
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5781434433627656681}
+  m_Enabled: 1
+  m_Weight: 0
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 1
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 6588791891337595731}
+    weight: 1
 --- !u!1 &5793875928182807569
 GameObject:
   m_ObjectHideFlags: 0

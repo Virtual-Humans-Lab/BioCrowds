@@ -87,7 +87,7 @@ namespace Biocrowds.Core
         /*-----------Paravisis' model-----------*/
         protected bool _isDenW = false; //  avoid recalculation
         protected float _denW;    //  avoid recalculation
-        protected Vector3 _rotation; //orientation vector (movement)
+        public Vector3 _rotation { get; protected set; } //orientation vector (movement)
         public Vector3 _goalPosition; //goal position
         protected Vector3 _dirAgentGoal; //diff between goal and agent
 

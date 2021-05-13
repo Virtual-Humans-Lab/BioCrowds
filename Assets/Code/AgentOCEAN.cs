@@ -29,7 +29,7 @@ namespace Biocrowds.Emotion
         {
             base.Start();
 
-            _emotionProfile.Extraversion = Random.Range(0.95f, 1f);
+            _emotionProfile.Extraversion = Random.Range(0.8f, 1f);
 
         }
 

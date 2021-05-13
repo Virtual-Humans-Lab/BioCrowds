@@ -18,13 +18,23 @@ namespace Biocrowds.Animation
         private Vector3 _averageDirection;
         private Vector3 _lastPos;
 
+
+        private float _framesPerSecond;
+
+        private Agent _agent;
+
+        [field: SerializeField]
+        public bool _useAgentRotation { get; private set; } = true;
+
         // Start is called before the first frame update
         void Start()
         {
-            _deltas = new Queue<Vector3>(30);
+            _framesPerSecond = Mathf.Pow(World.instance.SIMULATION_STEP, -1);
 
+            _deltas = new Queue<Vector3>(Mathf.FloorToInt(_framesPerSecond));
+            _agent = gameObject.GetComponent<Agent>();
 
-            for (int i = 0; i < Mathf.Pow(World.instance.SIMULATION_STEP, -1); i++)
+            for (int i = 0; i < _framesPerSecond; i++)
             {
                 _deltas.Enqueue(Vector3.zero);
             }
@@ -47,11 +57,13 @@ namespace Biocrowds.Animation
 
             Vector3 targetDirection = _averageDirection.normalized;
 
-
             if (targetDirection != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 36f);
+                targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 36f * World.instance.SIMULATION_STEP);
+
+                transform.rotation = targetRotation;
+
             }
 
         }
@@ -62,13 +74,24 @@ namespace Biocrowds.Animation
 #if UNITY_EDITOR
             Profiler.BeginSample("Animation");
 #endif  
-            if(transform.position - _lastPos != Vector3.zero)
-                _deltas.Enqueue(transform.position - _lastPos);
+
+            if (_useAgentRotation)
+            {
+                if (_agent._rotation != Vector3.zero)
+                    _deltas.Enqueue(_agent._rotation);
+            }
+            else
+            {
+                if (transform.position - _lastPos != Vector3.zero)
+                    _deltas.Enqueue(transform.position - _lastPos);
+            }
+            
 
             _deltaVisu = _deltas.ToList();
 
+            
 
-            if (_deltas.Count > Mathf.Pow(World.instance.SIMULATION_STEP, -1))
+            if (_deltas.Count > _framesPerSecond)
             {
                 _deltas.Dequeue();
 
