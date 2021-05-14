@@ -60,11 +60,13 @@ public class PlayerController : Agent
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _playerPriority = 0f;
+            _playerPriority = 0.01f;
+            agentRadius = 0.1f;
         }
         else
         {
             _playerPriority = 1f;
+            agentRadius = 1;
         }
 
         //if (_arrivedAtGoal)
@@ -72,12 +74,12 @@ public class PlayerController : Agent
         //    transform.position = transform.position;
         //}
 
-        //for (int j = 0; j < _auxins.Count; j++)
-        //{
-        //    Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
-        //}
+        for (int j = 0; j < _auxins.Count; j++)
+        {
+            Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
+        }
 
-        
+
 
     }
 
@@ -100,10 +102,12 @@ public class PlayerController : Agent
     }
 
 
-    protected override bool DistanceMetric(float agent, Auxin auxin)
+    protected override float DistanceMetric(Agent agent, Auxin auxin)
     {
-        return base.DistanceMetric(agent * _playerPriority, auxin);
+        //Debug.Log("PASSANDO AQ PLAYER");
+        return base.DistanceMetric(agent, auxin) * _playerPriority;
     }
 
-   
+  
+
 }

@@ -18,10 +18,7 @@ namespace Biocrowds.Emotion
 
     public class AgentOCEAN : Core.Agent
     {
-
-
         [SerializeField] private OCEAN _emotionProfile;
-
 
         // Start is called before the first frame update
         void Start()
@@ -39,19 +36,17 @@ namespace Biocrowds.Emotion
             base.Update();
         }
 
-
         private float CalculateExtraversionFactor()
         {
             return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
         }
-
 
         private float CalculateNeuritisismFactor()
         {
             return (1 - _emotionProfile.Neuroticism);
         }
 
-        protected override bool DistanceMetric(float agent, Core.Auxin auxin)
+        protected override bool DistanceTest(float agent, Core.Auxin auxin)
         {
             if (auxin.Agent as AgentOCEAN)
             {
@@ -59,10 +54,10 @@ namespace Biocrowds.Emotion
             }
             else
             {
-                return base.DistanceMetric(agent, auxin);
+                return base.DistanceTest(agent, auxin);
             }
 
-         
+
         }
 
         protected override float CalculaW(int indiceRelacao)

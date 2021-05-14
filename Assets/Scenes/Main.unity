@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44764113, g: 0.49761558, b: 0.575369, a: 1}
+  m_IndirectSpecularColor: {r: 0.44731712, g: 0.49725074, b: 0.57522374, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -936,13 +936,13 @@ PrefabInstance:
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
       propertyPath: _maxAgents
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
       propertyPath: _agentPrefab
       value: 
-      objectReference: {fileID: 4088156270036766780, guid: e10e5445c0c7075468371b7a52732761,
+      objectReference: {fileID: 4897865992422296962, guid: 76ef2e65b912fda46ac7ea83f4962e09,
         type: 3}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -1146,7 +1146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.68
+      value: 11.05
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1316,6 +1316,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6752845410819249574, guid: da02c980eca388445b420f33034b330a,
+        type: 3}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: m_RootOrder
@@ -1324,7 +1329,7 @@ PrefabInstance:
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.17
+      value: 13.72
       objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
@@ -1334,7 +1339,7 @@ PrefabInstance:
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.09
+      value: 9.28
       objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}
