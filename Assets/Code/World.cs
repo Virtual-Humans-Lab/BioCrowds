@@ -42,9 +42,10 @@ namespace Biocrowds.Core
         [SerializeField]
         private Transform _goal;
 
-        public List<GameObject> _goalList;
-        public float SIMULATION_STEP { get; private set; } = 1f / 30f;
+        [field: SerializeField]
+        public List<GameObject> _goalList { get; private set; }
 
+        public float SIMULATION_STEP { get; private set; } = 1f / 30f;
 
         [SerializeField]
         private Vector2 _dimension = new Vector2(30.0f, 20.0f);
@@ -258,7 +259,7 @@ namespace Biocrowds.Core
             //instantiate agents
             for (int i = 0; i < _maxAgents; i++)
             {
-                Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0.5f, zPos), Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0f, zPos), Quaternion.identity, agentPool);
 
                 newAgent.name = i.ToString();  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
@@ -361,7 +362,7 @@ namespace Biocrowds.Core
                 for (int j = 0; j < agentAuxins.Count; j++)
                 {
                     _agents[i]._distAuxin.Add(agentAuxins[j].Position - _agents[i].transform.position);
-                    //Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
+                    Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
                 }
 
                 _agents[i].CalculateDirection();

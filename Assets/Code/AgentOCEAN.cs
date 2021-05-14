@@ -23,13 +23,13 @@ namespace Biocrowds.Emotion
         [SerializeField] private OCEAN _emotionProfile;
 
 
-
         // Start is called before the first frame update
         void Start()
         {
             base.Start();
 
             _emotionProfile.Extraversion = Random.Range(0.8f, 1f);
+            _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
 
         }
 
@@ -43,6 +43,26 @@ namespace Biocrowds.Emotion
         private float CalculateExtraversionFactor()
         {
             return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
+        }
+
+
+        private float CalculateNeuritisismFactor()
+        {
+            return (1 - _emotionProfile.Neuroticism);
+        }
+
+        protected override bool DistanceMetric(float agent, Core.Auxin auxin)
+        {
+            if (auxin.Agent as AgentOCEAN)
+            {
+                return agent * CalculateNeuritisismFactor() < auxin.MinDistance * (auxin.Agent as AgentOCEAN).CalculateNeuritisismFactor();
+            }
+            else
+            {
+                return base.DistanceMetric(agent, auxin);
+            }
+
+         
         }
 
         protected override float CalculaW(int indiceRelacao)

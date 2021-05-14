@@ -24,8 +24,6 @@ namespace Biocrowds.Core
         //agent speed
         protected Vector3 _velocity { get; private set; }
 
-  
-
         //max speed
         [SerializeField]
         protected float _maxSpeed = 1.5f;
@@ -35,7 +33,6 @@ namespace Biocrowds.Core
 
         [SerializeField]
         protected Transform agentCheckTransform;
-
 
         //list with all auxins in his personal space
         protected List<Auxin> _auxins = new List<Auxin>();
@@ -176,14 +173,14 @@ namespace Biocrowds.Core
             _denW = 0;
             _distAuxin.Clear();
             _isDenW = false;
-            _rotation = new Vector3(0f, 0f, 0f);
+            _rotation = Vector3.zero;
             _dirAgentGoal = _goalPosition - transform.position;
         }
 
         //walk
         public void Step()
         {
-            if (_velocity.sqrMagnitude > 0.0f)
+            if (_velocity.sqrMagnitude > float.Epsilon)
                 transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
            
@@ -274,7 +271,7 @@ namespace Biocrowds.Core
             {
                 //calculate speed vector
                 _velocity = s * (_rotation / moduleM);
-                Console.WriteLine(_velocity);
+                //Console.WriteLine(_velocity);
             }
             else
             {
@@ -287,9 +284,6 @@ namespace Biocrowds.Core
             //    Debug.Log(_velocity);
             //}
         }
-
-
-
 
         //find all auxins near him (Voronoi Diagram)
         //call this method from game controller, to make it sequential for each agent
@@ -306,7 +300,7 @@ namespace Biocrowds.Core
             {
                 //see if the distance between this agent and this auxin is smaller than the actual value, and inside agent radius
                 float distanceSqr = (transform.position - cellAuxins[i].Position).sqrMagnitude;
-                if (distanceSqr < cellAuxins[i].MinDistance && distanceSqr <= agentRadius * agentRadius)
+                if (DistanceMetric(distanceSqr, cellAuxins[i]) && distanceSqr <= agentRadius * agentRadius)
                 {
                     //take the auxin!
                     //if this auxin already was taken, need to remove it from the agent who had it
@@ -315,7 +309,6 @@ namespace Biocrowds.Core
 
                     //auxin is taken
                     cellAuxins[i].IsTaken = true;
-
                     //auxin has agent
                     cellAuxins[i].Agent = this;
                     //update min distance
@@ -363,6 +356,11 @@ namespace Biocrowds.Core
 
         }
 
+        protected virtual bool DistanceMetric(float agent, Auxin auxin)
+        {
+            return agent < auxin.MinDistance;
+        }
+
         protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
         {
             //get all auxins on neighbourcell
@@ -373,7 +371,7 @@ namespace Biocrowds.Core
             {
                 //see if the distance between this agent and this auxin is smaller than the actual value, and smaller than agent radius
                 float distanceSqr = (transform.position - cellAuxins[c].Position).sqrMagnitude;
-                if (distanceSqr < cellAuxins[c].MinDistance && distanceSqr <= agentRadius * agentRadius)
+                if (DistanceMetric(distanceSqr, cellAuxins[c]) && distanceSqr <= agentRadius * agentRadius)
                 {
                     //take the auxin
                     //if this auxin already was taken, need to remove it from the agent who had it

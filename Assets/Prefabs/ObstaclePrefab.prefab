@@ -17,7 +17,7 @@ GameObject:
   m_Name: ObstaclePrefab
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4000012487660736
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1000013283948280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.99, y: 1.483, z: 9.62}
-  m_LocalScale: {x: 5.73, y: 4.966551, z: 3.7991955}
+  m_LocalScale: {x: 13.669762, y: 2.1858072, z: 1.6676618}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1000013283948280}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 0
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -73,7 +73,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: acee73b99fdd0354e979c2d81610e96c, type: 2}
+  - {fileID: 2100000, guid: 572fb6972f9d75d4fa64aaf3dc1de251, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
