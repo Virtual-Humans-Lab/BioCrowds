@@ -69,10 +69,6 @@ public class PlayerController : Agent
             agentRadius = 1;
         }
 
-        //if (_arrivedAtGoal)
-        //{
-        //    transform.position = transform.position;
-        //}
 
         for (int j = 0; j < _auxins.Count; j++)
         {
