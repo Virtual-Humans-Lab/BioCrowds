@@ -11,9 +11,9 @@ namespace Biocrowds.Emotion
     {
         [Range(0f, 1f)] public float Openness;
         [Range(0f, 1f)] public float Conscientiousness;
-        [Range(0f, 5f)] public float Extraversion;
+        [Range(0f, 1f)] public float Extraversion;
         [Range(0f, 1f)] public float Aggreableness;
-        public float Neuroticism;
+        [Range(0f, 1f)] public float Neuroticism;
     }
 
     public class AgentOCEAN : Core.Agent
@@ -22,6 +22,7 @@ namespace Biocrowds.Emotion
 
         [SerializeField] private float maxAuxins;
 
+        private float _confortFactor;
 
         // Start is called before the first frame update
         void Start()
@@ -29,39 +30,47 @@ namespace Biocrowds.Emotion
             base.Start();
             maxAuxins = 75;
             _ws = new List<(int,float)>();
-            _emotionProfile.Neuroticism = 1f;
-             _emotionProfile.Extraversion = Random.Range(0.6f,1f);
+
+            _emotionProfile.Extraversion = Random.Range(0.1f, 1f);
+            _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
+
         }
 
         // Update is called once per frame
         void Update()
         {
             base.Update();
-           
+
             /*_emotionProfile.Extraversion = Mathf.Clamp01(_emotionProfile.Extraversion + Random.Range(-0.1f,0.1f));*/
 
-            
-            //_emotionProfile.Extraversion = _auxins.Count / maxAuxins;
+
+            _confortFactor = _auxins.Count / maxAuxins;
 
          
         }
 
+        private float CalculateConfortFactor()
+        {
+            return Mathf.Sin(_confortFactor * (Mathf.PI / 2));
+            //return _emotionProfile.Extraversion;
+        }
+
         private float CalculateExtraversionFactor()
         {
-            return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
+            return 1 - _emotionProfile.Extraversion;
             //return _emotionProfile.Extraversion;
         }
 
         private float CalculateNeuritisismFactor()
         {
-            return (_emotionProfile.Neuroticism);
+            return (1 - _emotionProfile.Neuroticism);
         }
 
         protected override bool DistanceTest(float agent, Core.Auxin auxin)
         {
             if (auxin.Agent as AgentOCEAN)
             {
-                return agent * CalculateNeuritisismFactor() < auxin.MinDistance * (auxin.Agent as AgentOCEAN).CalculateNeuritisismFactor();
+                return agent * CalculateNeuritisismFactor() < auxin.MinDistance * (auxin.Agent as AgentOCEAN).CalculateNeuritisismFactor() && agent <= agentRadius * agentRadius;
             }
             else
             {
@@ -75,16 +84,17 @@ namespace Biocrowds.Emotion
         {
             var parcialW = base.CalculaW(indiceRelacao);
 
-            //if (parcialW < 0.001f)
-            //    return parcialW;
+            if (parcialW < 0.001f)
+                return parcialW;
 
-            var extraversionFactor = CalculateExtraversionFactor();
+            var factor = CalculateConfortFactor();
+            var extraversion = CalculateExtraversionFactor();
 
-
-            float newW = (parcialW * extraversionFactor) + (1 - extraversionFactor);
+            float newW = (parcialW * factor * (1 + extraversion)) + ((1 - factor) * extraversion);
 
 #if UNITY_EDITOR
-            _ws.Add((indiceRelacao, newW));
+            if(_debug)
+                _ws.Add((indiceRelacao, newW));
 #endif
             return newW;
 
@@ -93,9 +103,12 @@ namespace Biocrowds.Emotion
 
 #if UNITY_EDITOR
         private List<(int, float)> _ws;
+        private bool _debug = false;
 
         private void OnDrawGizmos()
         {
+            if (!_debug)
+                return;
             for (int i = 0; i < _ws.Count; i++)
             {
                 //Debug.Log("DEAW");
