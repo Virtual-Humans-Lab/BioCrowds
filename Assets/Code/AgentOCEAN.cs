@@ -11,39 +11,50 @@ namespace Biocrowds.Emotion
     {
         [Range(0f, 1f)] public float Openness;
         [Range(0f, 1f)] public float Conscientiousness;
-        [Range(0f, 1f)] public float Extraversion;
+        [Range(0f, 5f)] public float Extraversion;
         [Range(0f, 1f)] public float Aggreableness;
-        [Range(0f, 1f)] public float Neuroticism;
+        public float Neuroticism;
     }
 
     public class AgentOCEAN : Core.Agent
     {
         [SerializeField] private OCEAN _emotionProfile;
 
+        [SerializeField] private float maxAuxins;
+
+
         // Start is called before the first frame update
         void Start()
         {
             base.Start();
+            maxAuxins = 75;
 
-            _emotionProfile.Extraversion = Random.Range(0.8f, 1f);
-            _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
-
+            _emotionProfile.Neuroticism = 1f;
+            // _emotionProfile.Extraversion = Random.Range(0.6f,1f);
         }
 
         // Update is called once per frame
         void Update()
         {
             base.Update();
+
+            /*_emotionProfile.Extraversion = Mathf.Clamp01(_emotionProfile.Extraversion + Random.Range(-0.1f,0.1f));*/
+
+
+            _emotionProfile.Extraversion = _auxins.Count / maxAuxins;
+
+         
         }
 
         private float CalculateExtraversionFactor()
         {
             return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
+            //return _emotionProfile.Extraversion;
         }
 
         private float CalculateNeuritisismFactor()
         {
-            return (1 - _emotionProfile.Neuroticism);
+            return (_emotionProfile.Neuroticism);
         }
 
         protected override bool DistanceTest(float agent, Core.Auxin auxin)
@@ -63,6 +74,9 @@ namespace Biocrowds.Emotion
         protected override float CalculaW(int indiceRelacao)
         {
             var parcialW = base.CalculaW(indiceRelacao);
+
+            //if (parcialW < 0.001f)
+            //    return parcialW;
 
             var extraversionFactor = CalculateExtraversionFactor();
 

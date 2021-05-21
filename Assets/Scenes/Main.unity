@@ -57,14 +57,15 @@ LightmapSettings:
     serializedVersion: 12
     m_Resolution: 4
     m_BakeResolution: 40
-    m_AtlasSize: 2048
+    m_AtlasSize: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
     m_ExtractAmbientOcclusion: 0
     m_Padding: 2
-    m_LightmapParameters: {fileID: 0}
+    m_LightmapParameters: {fileID: 15201, guid: 0000000000000000f000000000000000,
+      type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
     m_FinalGather: 0
@@ -139,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_RootOrder
@@ -619,7 +620,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775523149}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.194864, y: -0.27183723, z: 10.15532}
+  m_LocalPosition: {x: 11.261, y: 1.71, z: 10.15532}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -942,7 +943,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _agentPrefab
       value: 
-      objectReference: {fileID: 4897865992422296962, guid: 76ef2e65b912fda46ac7ea83f4962e09,
+      objectReference: {fileID: 7898114416483324986, guid: 45bcad05c90b0c04089e731267e7fed2,
         type: 3}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -1134,7 +1135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.x

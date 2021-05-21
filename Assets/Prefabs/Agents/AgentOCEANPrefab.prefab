@@ -3992,6 +3992,7 @@ MonoBehaviour:
     Extraversion: 0
     Aggreableness: 0
     Neuroticism: 0
+  maxAuxins: 40
 --- !u!1818360609 &-1890695908671288301
 RotationConstraint:
   m_ObjectHideFlags: 0
