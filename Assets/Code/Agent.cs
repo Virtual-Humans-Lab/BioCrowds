@@ -241,6 +241,7 @@ namespace Biocrowds.Core
         {
             //distance between auxin´s distance and origin 
             float Ymodule = Vector3.Distance(_distAuxin[pRelationIndex], Vector3.zero);
+            //float Ymodule = _distAuxin[pRelationIndex].magnitude;
             //distance between goal vector and origin
             float Xmodule = _dirAgentGoal.normalized.magnitude;
 

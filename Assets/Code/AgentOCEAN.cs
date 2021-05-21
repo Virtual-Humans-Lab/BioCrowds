@@ -28,20 +28,20 @@ namespace Biocrowds.Emotion
         {
             base.Start();
             maxAuxins = 75;
-
+            _ws = new List<(int,float)>();
             _emotionProfile.Neuroticism = 1f;
-            // _emotionProfile.Extraversion = Random.Range(0.6f,1f);
+             _emotionProfile.Extraversion = Random.Range(0.6f,1f);
         }
 
         // Update is called once per frame
         void Update()
         {
             base.Update();
-
+           
             /*_emotionProfile.Extraversion = Mathf.Clamp01(_emotionProfile.Extraversion + Random.Range(-0.1f,0.1f));*/
 
-
-            _emotionProfile.Extraversion = _auxins.Count / maxAuxins;
+            
+            //_emotionProfile.Extraversion = _auxins.Count / maxAuxins;
 
          
         }
@@ -80,11 +80,35 @@ namespace Biocrowds.Emotion
 
             var extraversionFactor = CalculateExtraversionFactor();
 
-            return (parcialW * extraversionFactor) + (1 - extraversionFactor);
+
+            float newW = (parcialW * extraversionFactor) + (1 - extraversionFactor);
+
+#if UNITY_EDITOR
+            _ws.Add((indiceRelacao, newW));
+#endif
+            return newW;
 
 
         }
 
+#if UNITY_EDITOR
+        private List<(int, float)> _ws;
+
+        private void OnDrawGizmos()
+        {
+            for (int i = 0; i < _ws.Count; i++)
+            {
+                //Debug.Log("DEAW");
+
+                GUIStyle style = new GUIStyle();
+                
+
+                UnityEditor.Handles.Label(_auxins[_ws[i].Item1].Position, _ws[i].Item2.ToString());
+            }
+            _ws.Clear();
+        }
+
+#endif
 
     }
 
