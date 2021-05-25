@@ -28,7 +28,7 @@ namespace Biocrowds.Emotion
         {
             base.Start();
 
-            _emotionProfile.Extraversion = Random.Range(0.8f, 1f);
+            _emotionProfile.Extraversion = Random.Range(0.85f, 1f);
             _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
 
         }
@@ -75,8 +75,5 @@ namespace Biocrowds.Emotion
 
 
         }
-
-
     }
-
 }

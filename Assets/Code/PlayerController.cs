@@ -72,12 +72,12 @@ public class PlayerController : Agent
         //    transform.position = transform.position;
         //}
 
-        //for (int j = 0; j < _auxins.Count; j++)
-        //{
-        //    Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
-        //}
+        for (int j = 0; j < _auxins.Count; j++)
+        {
+            Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
+        }
 
-        
+
 
     }
 
