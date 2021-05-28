@@ -18,8 +18,8 @@ namespace Biocrowds.Animation
 
         public List<Vector3> _deltaVisu;
 
-        private Vector3 _averageDirection;
-        private Vector3 _direction;
+        [SerializeField] private Vector3 _averageDirection;
+        [SerializeField] private Vector3 _direction;
 
         private Vector3 _lastPos;
 
@@ -56,8 +56,7 @@ namespace Biocrowds.Animation
         private void UpdateAnimationVelocity()
         {
 
-            _animator.speed = _direction.magnitude;
-
+            _animator.SetFloat("Speed", _direction.magnitude);
         }
 
 
@@ -95,7 +94,9 @@ namespace Biocrowds.Animation
 
             _averageDirection /= _deltas.Count;
 
-            _animator.SetFloat("Speed", _direction.magnitude);
+          
+
+            
 
             //Debug.Log(_agent.name + " " + Vector3.Dot(transform.forward, _direction.normalized));
 
