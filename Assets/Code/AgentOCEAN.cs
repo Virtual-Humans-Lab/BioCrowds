@@ -18,17 +18,20 @@ namespace Biocrowds.Emotion
 
     public class AgentOCEAN : Core.Agent
     {
-
-
         [SerializeField] private OCEAN _emotionProfile;
 
+        [SerializeField] private float maxAuxins;
+
+        private float _confortFactor;
 
         // Start is called before the first frame update
         void Start()
         {
             base.Start();
+            maxAuxins = 75;
+            _ws = new List<(int,float)>();
 
-            _emotionProfile.Extraversion = Random.Range(0.85f, 1f);
+            _emotionProfile.Extraversion = Random.Range(0.1f, 1f);
             _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
 
         }
@@ -37,43 +40,89 @@ namespace Biocrowds.Emotion
         void Update()
         {
             base.Update();
+
+            /*_emotionProfile.Extraversion = Mathf.Clamp01(_emotionProfile.Extraversion + Random.Range(-0.1f,0.1f));*/
+
+
+            _confortFactor = _auxins.Count / maxAuxins;
+
+         
         }
 
+        private float CalculateConfortFactor()
+        {
+            return Mathf.Sin(_confortFactor * (Mathf.PI / 2));
+            //return _emotionProfile.Extraversion;
+        }
 
         private float CalculateExtraversionFactor()
         {
-            return Mathf.Sin(_emotionProfile.Extraversion * (Mathf.PI / 2));
+            return 1 - _emotionProfile.Extraversion;
+            //return _emotionProfile.Extraversion;
         }
-
 
         private float CalculateNeuritisismFactor()
         {
             return (1 - _emotionProfile.Neuroticism);
         }
 
-        protected override bool DistanceMetric(float agent, Core.Auxin auxin)
+        protected override bool DistanceTest(float agent, Core.Auxin auxin)
         {
             if (auxin.Agent as AgentOCEAN)
             {
-                return agent * CalculateNeuritisismFactor() < auxin.MinDistance * (auxin.Agent as AgentOCEAN).CalculateNeuritisismFactor();
+                return agent * CalculateNeuritisismFactor() < auxin.MinDistance * (auxin.Agent as AgentOCEAN).CalculateNeuritisismFactor() && agent <= agentRadius * agentRadius;
             }
             else
             {
-                return base.DistanceMetric(agent, auxin);
+                return base.DistanceTest(agent, auxin);
             }
 
-         
+
         }
 
         protected override float CalculaW(int indiceRelacao)
         {
             var parcialW = base.CalculaW(indiceRelacao);
 
-            var extraversionFactor = CalculateExtraversionFactor();
+            if (parcialW < 0.001f)
+                return parcialW;
 
-            return (parcialW * extraversionFactor) + (1 - extraversionFactor);
+            var factor = CalculateConfortFactor();
+            var extraversion = CalculateExtraversionFactor();
+
+            float newW = (parcialW * factor * (1 + extraversion)) + ((1 - factor) * extraversion);
+
+#if UNITY_EDITOR
+            if(_debug)
+                _ws.Add((indiceRelacao, newW));
+#endif
+            return newW;
 
 
         }
+
+#if UNITY_EDITOR
+        private List<(int, float)> _ws;
+        private bool _debug = false;
+
+        private void OnDrawGizmos()
+        {
+            if (!_debug)
+                return;
+            for (int i = 0; i < _ws.Count; i++)
+            {
+                //Debug.Log("DEAW");
+
+                GUIStyle style = new GUIStyle();
+                
+
+                UnityEditor.Handles.Label(_auxins[_ws[i].Item1].Position, _ws[i].Item2.ToString());
+            }
+            _ws.Clear();
+        }
+
+#endif
+
     }
+
 }

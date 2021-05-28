@@ -19,7 +19,7 @@ namespace Biocrowds.Core
         protected const float UPDATE_NAVMESH_INTERVAL = 0.1f;
 
         //agent radius
-        protected float agentRadius { get; private set; } = 1f;
+        protected float agentRadius { get; set; } = 1f;
 
         //agent speed
         protected Vector3 _velocity { get; private set; }
@@ -51,7 +51,7 @@ namespace Biocrowds.Core
         }
 
         protected World _world;
-      
+
 
         protected int _totalX;
         protected int _totalZ;
@@ -121,27 +121,22 @@ namespace Biocrowds.Core
                 //calculate agent path
                 bool foundPath = NavMesh.CalculatePath(transform.position, Goal.transform.position, NavMesh.AllAreas, _navMeshPath);
 
-
-
-
                 //update its goal if path is found
                 if (foundPath)
                 {
                     _goalPosition = new Vector3(_navMeshPath.corners[1].x, 0f, _navMeshPath.corners[1].z);
                     _dirAgentGoal = _goalPosition - transform.position;
                 }
-               
-
 
                 // defines what happens when the agent reaches the goal`s threshold
                 if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal)
-                { 
+                {
                     //calculates the average speed based on the acummulated velocity / world frames converted to meters            
                     AverageSpeed = _velocityAcummulator / (_world.Frame * _world.SIMULATION_STEP);
 
                     //Debug.Log("Agent" + gameObject.name + " arrived at goal with average speed of " + AverageSpeed + " m/s" );
                     //changes the agent`s status to arrived at goal
-                    _arrivedAtGoal = true; 
+                    _arrivedAtGoal = true;
                 }
 
             }
@@ -169,7 +164,7 @@ namespace Biocrowds.Core
         public void ClearAgent()
         {
             //re-set inicial values
-            
+
             _denW = 0;
             _distAuxin.Clear();
             _isDenW = false;
@@ -183,7 +178,7 @@ namespace Biocrowds.Core
             if (_velocity.sqrMagnitude > float.Epsilon)
                 transform.Translate(_velocity * _world.SIMULATION_STEP, Space.World);
 
-           
+
         }
 
         //The calculation formula starts here
@@ -200,12 +195,17 @@ namespace Biocrowds.Core
             {
                 //calculate W
                 float valorW = CalculaW(k);
-                if (_denW < 0.0001f)
+                if (_denW < float.Epsilon)
+                {
                     valorW = 0.0f;
-
+                    //Debug.LogWarning("AAAAAAAA");
+                }
                 //sum the resulting vector * weight (Wk*Dk)
                 _rotation += valorW * _distAuxin[k] * _maxSpeed;
             }
+
+            //Debug.LogWarning(name + " " + _rotation);
+
 
 
         }
@@ -231,7 +231,7 @@ namespace Biocrowds.Core
 
             //Debug.Log(gameObject.name);
 
-       
+
 
             return (fVal / _denW);
         }
@@ -241,12 +241,13 @@ namespace Biocrowds.Core
         {
             //distance between auxin´s distance and origin 
             float Ymodule = Vector3.Distance(_distAuxin[pRelationIndex], Vector3.zero);
+            //float Ymodule = _distAuxin[pRelationIndex].magnitude;
             //distance between goal vector and origin
             float Xmodule = _dirAgentGoal.normalized.magnitude;
 
             float dot = Vector3.Dot(_distAuxin[pRelationIndex], _dirAgentGoal.normalized);
 
-            if (Ymodule < 0.00001f)
+            if (Ymodule < float.Epsilon)
                 return 0.0f;
 
             //return the formula, defined in thesis
@@ -266,8 +267,7 @@ namespace Biocrowds.Core
             if (s > _maxSpeed)
                 s = _maxSpeed;
 
-            //Debug.Log("vetor M: " + m + " -- modulo M: " + s);
-            if (moduleM > 0.0001f)
+            if (moduleM > float.Epsilon)
             {
                 //calculate speed vector
                 _velocity = s * (_rotation / moduleM);
@@ -277,6 +277,8 @@ namespace Biocrowds.Core
             {
                 //else, go idle
                 _velocity = Vector3.zero;
+                //Debug.Log("vetor M: " + moduleM + " -- modulo M: " + s);
+
             }
 
             //if (gameObject.tag == "Player")
@@ -299,8 +301,8 @@ namespace Biocrowds.Core
             for (int i = 0; i < cellAuxins.Count; i++)
             {
                 //see if the distance between this agent and this auxin is smaller than the actual value, and inside agent radius
-                float distanceSqr = (transform.position - cellAuxins[i].Position).sqrMagnitude;
-                if (DistanceMetric(distanceSqr, cellAuxins[i]) && distanceSqr <= agentRadius * agentRadius)
+                float distanceSqr = DistanceMetric(this, cellAuxins[i]);
+                if (DistanceTest(distanceSqr, cellAuxins[i]))
                 {
                     //take the auxin!
                     //if this auxin already was taken, need to remove it from the agent who had it
@@ -356,10 +358,18 @@ namespace Biocrowds.Core
 
         }
 
-        protected virtual bool DistanceMetric(float agent, Auxin auxin)
+        protected virtual float DistanceMetric(Agent agent, Auxin auxin)
         {
-            return agent < auxin.MinDistance;
+            return (agent.transform.position - auxin.Position).sqrMagnitude;
         }
+
+
+        protected virtual bool DistanceTest(float agent, Auxin auxin)
+        {
+            return agent < auxin.MinDistance && agent <= agentRadius * agentRadius;
+        }
+
+
 
         protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
         {
@@ -370,8 +380,8 @@ namespace Biocrowds.Core
             for (int c = 0; c < cellAuxins.Count; c++)
             {
                 //see if the distance between this agent and this auxin is smaller than the actual value, and smaller than agent radius
-                float distanceSqr = (transform.position - cellAuxins[c].Position).sqrMagnitude;
-                if (DistanceMetric(distanceSqr, cellAuxins[c]) && distanceSqr <= agentRadius * agentRadius)
+                float distanceSqr = DistanceMetric(this, cellAuxins[c]);
+                if (DistanceTest(distanceSqr, cellAuxins[c]))
                 {
                     //take the auxin
                     //if this auxin already was taken, need to remove it from the agent who had it

@@ -15,7 +15,7 @@ namespace Biocrowds.DynamicGoals
         {
             _agent = GetComponent<Core.Agent>();
 
-            GameObject tempGoal = new GameObject();
+            GameObject tempGoal = null;
             float minDistance = float.MaxValue;
 
             foreach (var item in Core.World.instance._goalList)
