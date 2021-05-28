@@ -34,6 +34,8 @@ namespace Biocrowds.Emotion
             _emotionProfile.Extraversion = Random.Range(0.1f, 1f);
             _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
 
+            GetComponentInChildren<Renderer>().material.color = Color.red * _emotionProfile.Extraversion;
+
         }
 
         // Update is called once per frame
@@ -111,11 +113,7 @@ namespace Biocrowds.Emotion
                 return;
             for (int i = 0; i < _ws.Count; i++)
             {
-                //Debug.Log("DEAW");
-
                 GUIStyle style = new GUIStyle();
-                
-
                 UnityEditor.Handles.Label(_auxins[_ws[i].Item1].Position, _ws[i].Item2.ToString());
             }
             _ws.Clear();
