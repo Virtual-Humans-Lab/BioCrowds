@@ -1,4 +1,5 @@
 ﻿using Biocrowds.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,28 @@ namespace Biocrowds.Animation
     public class AgentAnimation : MonoBehaviour
     {
 
+        [SerializeField] private float _rotationSpeed;
+
         [SerializeField]
         private Queue<Vector3> _deltas;
 
         public List<Vector3> _deltaVisu;
 
         private Vector3 _averageDirection;
+        private Vector3 _direction;
+
         private Vector3 _lastPos;
 
 
         private float _framesPerSecond;
 
         private Agent _agent;
+        private Animator _animator;
 
-        [field: SerializeField]
-        public bool _useAgentRotation { get; private set; } = true;
+      
+
+
+        public bool _useAgentRotation { get; private set; } = false;
 
         // Start is called before the first frame update
         void Start()
@@ -33,6 +41,8 @@ namespace Biocrowds.Animation
 
             _deltas = new Queue<Vector3>(Mathf.FloorToInt(_framesPerSecond));
             _agent = gameObject.GetComponent<Agent>();
+            _animator = _agent.GetComponent<Animator>();
+
 
             for (int i = 0; i < _framesPerSecond; i++)
             {
@@ -43,8 +53,36 @@ namespace Biocrowds.Animation
 
         }
 
+        private void UpdateAnimationVelocity()
+        {
+
+            _animator.speed = _direction.magnitude;
+
+        }
+
 
         void UpdateDirection()
+        {
+           
+
+            
+
+            Vector3 targetDirection = _averageDirection.normalized;
+
+            if (targetDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * World.instance.SIMULATION_STEP);
+
+                transform.rotation = targetRotation;
+            }
+
+
+           
+
+        }
+
+        private void UpdateAnimationVariables()
         {
             _averageDirection = Vector3.zero;
 
@@ -53,18 +91,16 @@ namespace Biocrowds.Animation
                 _averageDirection += item;
             }
 
+            _direction = _averageDirection;
+
             _averageDirection /= _deltas.Count;
 
-            Vector3 targetDirection = _averageDirection.normalized;
+            _animator.SetFloat("Speed", _direction.magnitude);
 
-            if (targetDirection != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-                targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 36f * World.instance.SIMULATION_STEP);
+            //Debug.Log(_agent.name + " " + Vector3.Dot(transform.forward, _direction.normalized));
 
-                transform.rotation = targetRotation;
+            
 
-            }
 
         }
 
@@ -95,7 +131,9 @@ namespace Biocrowds.Animation
             {
                 _deltas.Dequeue();
 
+                UpdateAnimationVariables();
                 UpdateDirection();
+                UpdateAnimationVelocity();
 
             }
 
@@ -106,6 +144,8 @@ namespace Biocrowds.Animation
 #endif  
 
         }
+
+       
     }
 }
 

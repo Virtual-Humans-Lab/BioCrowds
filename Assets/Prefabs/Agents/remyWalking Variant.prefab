@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a38210deb00e17147a5b9272e43ab4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 1.5
+  _maxSpeed: 1.3
   Goal: {fileID: 0}
   agentCheckTransform: {fileID: 0}
   _distAuxin: []
@@ -23,6 +23,7 @@ MonoBehaviour:
     Extraversion: 0
     Aggreableness: 0
     Neuroticism: 0
+  maxAuxins: 40
 --- !u!114 &3839913060431372258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,8 +36,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e4c158cd7369843965c1692b2e01b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotationSpeed: 50
   _deltaVisu: []
-  <_useAgentRotation>k__BackingField: 1
 --- !u!1001 &5842690844298389653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,7 +73,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 069c275370d6e6d4999d2164f300545d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 069c275370d6e6d4999d2164f300545d,
         type: 3}

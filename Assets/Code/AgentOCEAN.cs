@@ -32,9 +32,9 @@ namespace Biocrowds.Emotion
             _ws = new List<(int,float)>();
 
             _emotionProfile.Extraversion = Random.Range(0.1f, 1f);
-            _emotionProfile.Neuroticism = _emotionProfile.Extraversion;
+            _emotionProfile.Neuroticism = 0f;
 
-            GetComponentInChildren<Renderer>().material.color = Color.red * _emotionProfile.Extraversion;
+            //GetComponentInChildren<Renderer>().material.color = Color.red * _emotionProfile.Extraversion;
 
         }
 
