@@ -119,8 +119,8 @@ namespace Biocrowds.Animation
             }
             else
             {
-                if (transform.position - _lastPos != Vector3.zero)
-                    _deltas.Enqueue(transform.position - _lastPos);
+                //if (transform.position - _lastPos != Vector3.zero)
+                 _deltas.Enqueue(transform.position - _lastPos);
             }
             
 

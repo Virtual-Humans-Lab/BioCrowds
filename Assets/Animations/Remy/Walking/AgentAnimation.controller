@@ -10,15 +10,15 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: Speed
-    m_EventTreshold: 0.2
+    m_EventTreshold: 0.3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5694894226588784543}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.6965786
-  m_TransitionOffset: 0.00417615
+  m_TransitionDuration: 0.62266415
+  m_TransitionOffset: 0.004176151
   m_ExitTime: 0.75542897
   m_HasExitTime: 1
   m_HasFixedDuration: 1
