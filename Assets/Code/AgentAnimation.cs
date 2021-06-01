@@ -23,14 +23,10 @@ namespace Biocrowds.Animation
 
         private Vector3 _lastPos;
 
-
         private float _framesPerSecond;
 
         private Agent _agent;
         private Animator _animator;
-
-      
-
 
         public bool _useAgentRotation { get; private set; } = false;
 
@@ -62,10 +58,6 @@ namespace Biocrowds.Animation
 
         void UpdateDirection()
         {
-           
-
-            
-
             Vector3 targetDirection = _averageDirection.normalized;
 
             if (targetDirection != Vector3.zero)
@@ -75,9 +67,6 @@ namespace Biocrowds.Animation
 
                 transform.rotation = targetRotation;
             }
-
-
-           
 
         }
 
@@ -93,15 +82,6 @@ namespace Biocrowds.Animation
             _direction = _averageDirection;
 
             _averageDirection /= _deltas.Count;
-
-          
-
-            
-
-            //Debug.Log(_agent.name + " " + Vector3.Dot(transform.forward, _direction.normalized));
-
-            
-
 
         }
 
