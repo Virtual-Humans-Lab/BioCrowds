@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxSpeed: 1.3
-  Goal: {fileID: 0}
+  Goal: {fileID: 5483248445643775039, guid: 80e827a62aa38da4680f69f47e7a4f44, type: 3}
   agentCheckTransform: {fileID: 0}
   _distAuxin: []
   _goalPosition: {x: 0, y: 0, z: 0}
