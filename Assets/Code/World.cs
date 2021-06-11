@@ -42,11 +42,11 @@ namespace Biocrowds.Core
         [SerializeField]
         private Terrain _terrain;
 
-        [SerializeField]
-        private Transform _goal;
+        //[SerializeField]
+        //private Transform _goal;
 
-        [field: SerializeField]
-        public List<GameObject> _goalList { get; private set; }
+        //[field: SerializeField]
+        //public List<GameObject> _goalList { get; private set; }
 
         public float SIMULATION_STEP { get; private set; } = 1f / 30f;
 
@@ -58,12 +58,12 @@ namespace Biocrowds.Core
         }
 
         //number of agents in the scene
-        [SerializeField]
-        private int _maxAgents = 30;
+        //[SerializeField]
+        //private int _maxAgents = 30;
 
         //agent prefab
-        [SerializeField]
-        private Agent _agentPrefab;
+        //[SerializeField]
+        //private Agent _agentPrefab;
 
         [SerializeField]
         private Cell _cellPrefab;
@@ -74,7 +74,7 @@ namespace Biocrowds.Core
         [SerializeField]
         private BoxCollider _obstacleCollider;
 
-        List<Agent> _agents = new List<Agent>();
+        public List<Agent> _agents = new List<Agent>();
         List<Cell> _cells = new List<Cell>();
 
         public List<Cell> Cells
@@ -90,7 +90,7 @@ namespace Biocrowds.Core
         private bool _isReady;
 
         // Use this for initialization
-        IEnumerator Start()
+        private void Start()
         {
             if(instance == null)
             {
@@ -108,10 +108,10 @@ namespace Biocrowds.Core
             _terrain.terrainData.size = new Vector3(_dimension.x, _terrain.terrainData.size.y, _dimension.y);
 
             //create all cells based on dimension
-            yield return StartCoroutine(CreateCells());
+            StartCoroutine(CreateCells());
 
             //populate cells with auxins
-            yield return StartCoroutine(DartThrowing());
+            StartCoroutine(DartThrowing());
 
             //create our agents
             //yield return StartCoroutine(CreateAgents());
@@ -121,7 +121,6 @@ namespace Biocrowds.Core
             UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
 #endif
             //wait a little bit to start moving
-            yield return new WaitForSeconds(1.0f);
             _isReady = true;
        
         }
@@ -249,43 +248,43 @@ namespace Biocrowds.Core
         }
 
 
-        private IEnumerator CreateAgents()
-        {
-            Transform agentPool = new GameObject("Agents").transform;
-            const float initialXPos = 1.0f;
-            const float initialZPos = 1.0f;
+        //private IEnumerator CreateAgents()
+        //{
+        //    Transform agentPool = new GameObject("Agents").transform;
+        //    const float initialXPos = 1.0f;
+        //    const float initialZPos = 1.0f;
 
 
-            float xPos = initialXPos;
-            float zPos = initialZPos;
+        //    float xPos = initialXPos;
+        //    float zPos = initialZPos;
 
-            //instantiate agents
-            for (int i = 0; i < _maxAgents; i++)
-            {
-                Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0f, zPos), Quaternion.identity, agentPool);
+        //    //instantiate agents
+        //    for (int i = 0; i < _maxAgents; i++)
+        //    {
+        //        Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0f, zPos), Quaternion.identity, agentPool);
 
-                newAgent.name = i.ToString();  //name
-                newAgent.CurrentCell = _cells[i];  //agent cell
-                //newAgent.agentRadius = AGENT_RADIUS;  //agent radius
-                newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
+        //        newAgent.name = i.ToString();  //name
+        //        newAgent.CurrentCell = _cells[i];  //agent cell
+        //        //newAgent.agentRadius = AGENT_RADIUS;  //agent radius
+        //        newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
              
 
-                _agents.Add(newAgent);
+        //        _agents.Add(newAgent);
 
-                xPos += 1.0f;
-                if (xPos > _dimension.x)
-                {
-                    xPos = initialXPos;
-                    zPos += 1.0f;
-                }
+        //        xPos += 1.0f;
+        //        if (xPos > _dimension.x)
+        //        {
+        //            xPos = initialXPos;
+        //            zPos += 1.0f;
+        //        }
 
 
 
-                // yield return null;
-            }
+        //        // yield return null;
+        //    }
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
     
 

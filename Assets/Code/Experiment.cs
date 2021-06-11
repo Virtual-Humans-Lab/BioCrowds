@@ -15,7 +15,7 @@ namespace Biocrowds.Core
 
         public Interaction InteractionType;
 
-        public Agent agentePrefab;
+        public Agent agentPrefab;
 
 
     }

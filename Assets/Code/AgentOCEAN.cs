@@ -18,7 +18,7 @@ namespace Biocrowds.Emotion
 
     public class AgentOCEAN : Core.Agent
     {
-        [SerializeField] private OCEAN _emotionProfile;
+        public OCEAN _emotionProfile;
 
         [SerializeField] private float maxAuxins;
 
@@ -31,8 +31,8 @@ namespace Biocrowds.Emotion
             maxAuxins = 75;
             _ws = new List<(int,float)>();
 
-            _emotionProfile.Extraversion = Random.Range(0.1f, 1f);
-            _emotionProfile.Neuroticism = 0f;
+            //_emotionProfile.Extraversion = Random.Range(0.1f, 1f);
+            //_emotionProfile.Neuroticism = 0f;
 
             //GetComponentInChildren<Renderer>().material.color = Color.red * _emotionProfile.Extraversion;
 

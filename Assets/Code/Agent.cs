@@ -108,6 +108,7 @@ namespace Biocrowds.Core
 
         protected void Update()
         {
+
             List<Auxin> agentAuxins = _auxins;
 
             for (int j = 0; j < agentAuxins.Count; j++)

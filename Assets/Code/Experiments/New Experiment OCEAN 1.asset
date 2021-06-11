@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: New Experiment OCEAN 1
   m_EditorClassIdentifier: 
   InteractionType: 1
+  agentPrefab: {fileID: -3367430751102205621, guid: 643b2411ef4b95741aa21ddf5a8a91d2,
+    type: 3}
   IntrovertProfile:
     Openness: 0
     Conscientiousness: 0
-    Extraversion: 0
+    Extraversion: 0.795
     Aggreableness: 0
     Neuroticism: 0
-  IntrovertsToSpawn: 100
   ExtrovertProfile:
     Openness: 0
     Conscientiousness: 0
     Extraversion: 1
     Aggreableness: 0
     Neuroticism: 0
-  ExtrovertsToSpawn: 50

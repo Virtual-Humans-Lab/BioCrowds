@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb05ba54ee1d644d94a5992e3621f9f, type: 3}
   m_Name: ExperimentGhost
   m_EditorClassIdentifier: 
-  InteractionType: 0
+  InteractionType: 1
+  agentPrefab: {fileID: 8473089087228634476, guid: 096800926a4dbe748bc93961953eb5e7,
+    type: 3}
