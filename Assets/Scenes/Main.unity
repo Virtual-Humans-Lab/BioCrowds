@@ -204,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_RootOrder
@@ -532,7 +532,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c7e01fec41ba613468172b787f517b09,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.419
+      value: 16.864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7e01fec41ba613468172b787f517b09,
         type: 3}
@@ -583,6 +583,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c7e01fec41ba613468172b787f517b09,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.47595
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c7e01fec41ba613468172b787f517b09,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.47595
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c7e01fec41ba613468172b787f517b09,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.47595
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c7e01fec41ba613468172b787f517b09,
         type: 3}
@@ -635,7 +650,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255146766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ced6298f78e4f9b469914abc950b56d9, type: 3}
   m_Name: 
@@ -672,7 +687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!20 &1265801847
 Camera:
   m_ObjectHideFlags: 0
@@ -824,7 +839,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _agentPrefab
       value: 
-      objectReference: {fileID: -3367430751102205621, guid: 096800926a4dbe748bc93961953eb5e7,
+      objectReference: {fileID: -5058237437832293352, guid: 1caf265068b368b4fb0063dce8e61d83,
         type: 3}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
@@ -902,6 +917,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <_goalList>k__BackingField.Array.data[3]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _useDOTS
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134c3d7ad423ae840acb9de2a7eb8dee, type: 3}
@@ -1955,7 +1975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000013283948280, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2221,7 +2241,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 5209263200219920141}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e557e1f7d8596b843b63c8e252d53612, type: 3}
   m_Name: 
@@ -2349,12 +2369,17 @@ PrefabInstance:
     - target: {fileID: 6752845410819249573, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249574, guid: da02c980eca388445b420f33034b330a,
         type: 3}
       propertyPath: Speed
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752845410819249574, guid: da02c980eca388445b420f33034b330a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6752845410819249576, guid: da02c980eca388445b420f33034b330a,
         type: 3}

@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System;
 using UnityEngine.Profiling;
+using UnityEngine.Jobs;
+using Unity.Jobs;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Mathematics;
 
 namespace Biocrowds.Core
 {
@@ -89,6 +94,12 @@ namespace Biocrowds.Core
         protected Vector3 _dirAgentGoal; //diff between goal and agent
 
 
+        List<Auxin> cellAuxins;
+
+
+        NativeArray<float> distances;
+        NativeList<float3> auxins;
+        JobHandle distanceJobHandle;
 
         protected void Start()
         {
@@ -104,6 +115,14 @@ namespace Biocrowds.Core
             _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
 
             _lastPos = transform.position;
+
+            cellAuxins = new List<Auxin>();
+
+            auxins = new NativeList<float3>(1, Allocator.Persistent);
+            distances = new NativeArray<float>(1, Allocator.Persistent);
+
+            GC.KeepAlive(cellAuxins);
+
         }
 
         protected void Update()
@@ -289,6 +308,38 @@ namespace Biocrowds.Core
 
         //find all auxins near him (Voronoi Diagram)
         //call this method from game controller, to make it sequential for each agent
+
+
+        [BurstCompile]
+        protected struct DistanceJob : IJobParallelFor
+        {
+            [WriteOnly]
+            public NativeArray<float> distances;
+
+            [ReadOnly]
+            public float3 agentPosition;
+
+            [ReadOnly]
+            public NativeList<float3> auxinPositions;
+
+
+            public void Execute(int index)
+            {
+                distances[index] = math.distance(agentPosition, auxinPositions[index]);
+            }
+        }
+
+        protected virtual float DistanceMetric(Agent agent, Auxin auxin)
+        {
+            return (agent.transform.position - auxin.Position).sqrMagnitude;
+        }
+
+
+        protected virtual bool DistanceTest(float agent, Auxin auxin)
+        {
+            return agent < auxin.MinDistance && agent <= agentRadius * agentRadius;
+        }
+
         public void FindNearAuxins()
         {
             //clear them all, for obvious reasons
@@ -297,7 +348,6 @@ namespace Biocrowds.Core
             //get all auxins on my cell
             List<Auxin> cellAuxins = _currentCell.Auxins;
 
-            //iterate all cell auxins to check distance between auxins and agent
             for (int i = 0; i < cellAuxins.Count; i++)
             {
                 //see if the distance between this agent and this auxin is smaller than the actual value, and inside agent radius
@@ -320,7 +370,195 @@ namespace Biocrowds.Core
                 }
             }
 
+
+
+            //iterate all cell auxins to check distance between auxins and agent
             FindCell();
+        }
+
+
+
+        public void FindAuxins()
+        {
+            _auxins.Clear();
+
+            cellAuxins.Clear();
+
+
+            var cells = GetCells();
+
+            cells.Add(_currentCell);
+          
+
+            //Profiler.BeginSample("FindAuxins");
+
+            //Profiler.BeginSample("CopyData");
+
+            //List<float3> auxinsTemp = new List<float3>();
+
+
+            if(auxins.IsCreated)
+                auxins.Clear();
+            else
+                auxins = new NativeList<float3>(0, Allocator.Persistent);
+
+
+            
+
+            //auxinsTemp.Clear();
+
+            //Debug.Log("auxinTempSize = " + auxinsTemp.Length);
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+               // var CellAuxins =;
+
+                //Debug.Log("copy" + CellAuxins.Length + " to " + CellAuxins.Length * (i + 1));
+
+                auxins.AddRange(cells[i]._auxinsPositions);
+
+                //Array.Copy(CellAuxins, 0, auxinsTemp.ToArray(), CellAuxins.Length * i, CellAuxins.Length);
+
+                cellAuxins.AddRange(cells[i].Auxins);
+            }
+
+
+            if(distances.Length != auxins.Length)
+            {
+                distances = new NativeArray<float>(auxins.Length, Allocator.Persistent);
+            }
+
+
+            //Profiler.EndSample();
+
+            //Profiler.BeginSample("ActualJob");
+
+
+            DistanceJob distanceJob = new DistanceJob
+            {
+                agentPosition = transform.position,
+                distances = distances,
+                auxinPositions = auxins
+            };
+
+            distanceJobHandle = distanceJob.Schedule(cellAuxins.Count, 1);
+
+
+                        //distances.Dispose();
+
+            float distanceToCellSqr = (transform.position - _currentCell.transform.position).sqrMagnitude; //Vector3.Distance(transform.position, 
+
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                var pCell = cells[i];
+
+                float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude;
+                if (distanceToNeighbourCell < distanceToCellSqr)
+                {
+                    distanceToCellSqr = distanceToNeighbourCell;
+
+                    //TODO: change the way we find the next cell, find it by the world position
+                    _currentCell = pCell;
+                }
+            }
+
+        }
+
+
+        private void OnDisable()
+        {
+            distances.Dispose();
+            auxins.Dispose();
+        }
+
+        public void FindAuxinsLate()
+        {
+
+            distanceJobHandle.Complete();
+
+            //auxins.Dispose();
+
+            
+
+
+
+            for (int i = 0; i < cellAuxins.Count; i++)
+            {
+                float distanceSqr = distances[i];
+                if (DistanceTest(distanceSqr, cellAuxins[i]))
+                {
+                    //take the auxin!
+                    //if this auxin already was taken, need to remove it from the agent who had it
+                    if (cellAuxins[i].IsTaken)
+                        cellAuxins[i].Agent.Auxins.Remove(cellAuxins[i]);
+
+                    //auxin is taken
+                    cellAuxins[i].IsTaken = true;
+                    //auxin has agent
+                    cellAuxins[i].Agent = this;
+                    //update min distance
+                    cellAuxins[i].MinDistance = distanceSqr;
+                    //update my auxins
+                    _auxins.Add(cellAuxins[i]);
+                }
+            }
+
+
+            //cellAuxins.Clear();
+            //distances.Dispose();
+
+
+
+            //Profiler.EndSample();
+
+
+
+        }
+
+
+        protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
+        {
+            //get all auxins on neighbourcell
+            List<Auxin> cellAuxins = pCell.Auxins;
+
+
+
+
+            //iterate all cell auxins to check distance between auxins and agent
+            for (int c = 0; c < cellAuxins.Count; c++)
+            {
+                //see if the distance between this agent and this auxin is smaller than the actual value, and smaller than agent radius
+                float distanceSqr = DistanceMetric(this, cellAuxins[c]);
+                if (DistanceTest(distanceSqr, cellAuxins[c]))
+                {
+                    //take the auxin
+                    //if this auxin already was taken, need to remove it from the agent who had it
+                    if (cellAuxins[c].IsTaken)
+                        cellAuxins[c].Agent.Auxins.Remove(cellAuxins[c]);
+
+                    //auxin is taken
+                    cellAuxins[c].IsTaken = true;
+                    //auxin has agent
+                    cellAuxins[c].Agent = this;
+                    //update min distance
+                    cellAuxins[c].MinDistance = distanceSqr;
+                    //update my auxins
+                    _auxins.Add(cellAuxins[c]);
+                }
+            }
+
+
+
+            //see distance to this cell
+            float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude;
+            if (distanceToNeighbourCell < pDistToCellSqr)
+            {
+                pDistToCellSqr = distanceToNeighbourCell;
+
+                //TODO: change the way we find the next cell, find it by the world position
+                _currentCell = pCell;
+            }
         }
 
         protected void FindCell()
@@ -358,56 +596,37 @@ namespace Biocrowds.Core
 
         }
 
-        protected virtual float DistanceMetric(Agent agent, Auxin auxin)
+        protected List<Cell> GetCells()
         {
-            return (agent.transform.position - auxin.Position).sqrMagnitude;
-        }
+
+            List<Cell> cells = new List<Cell>();
+
+            if (_currentCell.X > 0)
+                cells.Add(_world.Cells[(_currentCell.X - 1) * _totalZ + (_currentCell.Z + 0)]);
+
+            if (_currentCell.X > 0 && _currentCell.Z < _totalZ - 1)
+                cells.Add(_world.Cells[(_currentCell.X - 1) * _totalZ + (_currentCell.Z + 1)]);
+
+            if (_currentCell.X > 0 && _currentCell.Z > 0)
+                cells.Add(_world.Cells[(_currentCell.X - 1) * _totalZ + (_currentCell.Z - 1)]);
+
+            if (_currentCell.Z < _totalZ - 1)
+                cells.Add(_world.Cells[(_currentCell.X + 0) * _totalZ + (_currentCell.Z + 1)]);
+
+            if (_currentCell.X < _totalX && _currentCell.Z < _totalZ - 1)
+                cells.Add(_world.Cells[(_currentCell.X + 1) * _totalZ + (_currentCell.Z + 1)]);
+
+            if (_currentCell.X < _totalX)
+                cells.Add(_world.Cells[(_currentCell.X + 1) * _totalZ + (_currentCell.Z + 0)]);
+
+            if (_currentCell.X < _totalX && _currentCell.Z > 0)
+                cells.Add(_world.Cells[(_currentCell.X + 1) * _totalZ + (_currentCell.Z - 1)]);
+
+            if (_currentCell.Z > 0)
+                cells.Add(_world.Cells[(_currentCell.X + 0) * _totalZ + (_currentCell.Z - 1)]);
 
 
-        protected virtual bool DistanceTest(float agent, Auxin auxin)
-        {
-            return agent < auxin.MinDistance && agent <= agentRadius * agentRadius;
-        }
-
-
-
-        protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
-        {
-            //get all auxins on neighbourcell
-            List<Auxin> cellAuxins = pCell.Auxins;
-
-            //iterate all cell auxins to check distance between auxins and agent
-            for (int c = 0; c < cellAuxins.Count; c++)
-            {
-                //see if the distance between this agent and this auxin is smaller than the actual value, and smaller than agent radius
-                float distanceSqr = DistanceMetric(this, cellAuxins[c]);
-                if (DistanceTest(distanceSqr, cellAuxins[c]))
-                {
-                    //take the auxin
-                    //if this auxin already was taken, need to remove it from the agent who had it
-                    if (cellAuxins[c].IsTaken)
-                        cellAuxins[c].Agent.Auxins.Remove(cellAuxins[c]);
-
-                    //auxin is taken
-                    cellAuxins[c].IsTaken = true;
-                    //auxin has agent
-                    cellAuxins[c].Agent = this;
-                    //update min distance
-                    cellAuxins[c].MinDistance = distanceSqr;
-                    //update my auxins
-                    _auxins.Add(cellAuxins[c]);
-                }
-            }
-
-            //see distance to this cell
-            float distanceToNeighbourCell = (transform.position - pCell.transform.position).sqrMagnitude;
-            if (distanceToNeighbourCell < pDistToCellSqr)
-            {
-                pDistToCellSqr = distanceToNeighbourCell;
-
-                //TODO: change the way we find the next cell, find it by the world position
-                _currentCell = pCell;
-            }
+            return cells;
         }
     }
 }

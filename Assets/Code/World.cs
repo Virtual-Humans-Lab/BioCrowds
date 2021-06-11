@@ -21,6 +21,8 @@ namespace Biocrowds.Core
 
         public static World instance;
 
+        public bool _useDOTS;
+
         [field: SerializeField]
         public PlayerController Player { get; private set; }
 
@@ -89,7 +91,7 @@ namespace Biocrowds.Core
         // Use this for initialization
         IEnumerator Start()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = this;
             }
@@ -120,7 +122,7 @@ namespace Biocrowds.Core
             //wait a little bit to start moving
             yield return new WaitForSeconds(1.0f);
             _isReady = true;
-       
+
         }
         private IEnumerator CreateCells()
         {
@@ -207,6 +209,8 @@ namespace Biocrowds.Core
                     {
                         Auxin newAuxin = Instantiate(_auxinPrefab, new Vector3(x, 0.0f, z), Quaternion.identity, auxinPool);
 
+
+
                         //change its name
                         newAuxin.name = "Auxin [" + c + "][" + i + "]";
                         //this auxin is from this cell
@@ -216,7 +220,7 @@ namespace Biocrowds.Core
 
                         //add this auxin to this cell
                         _cells[c].Auxins.Add(newAuxin);
-
+                        _cells[c]._auxinsPositions.Add(newAuxin.Position);
                         //reset the flag
                         flag = 0;
 
@@ -262,10 +266,17 @@ namespace Biocrowds.Core
                 Agent newAgent = Instantiate(_agentPrefab, new Vector3(xPos, 0f, zPos), Quaternion.identity, agentPool);
 
                 newAgent.name = i.ToString();  //name
-                newAgent.CurrentCell = _cells[i];  //agent cell
+
+                Vector2 cellPostion = new Vector2
+                (
+                    Math.Abs((Mathf.FloorToInt(xPos / 2.0f)) - 1),
+                    Math.Abs((Mathf.FloorToInt(zPos / 2.0f)) - 1)
+                 );
+
+                newAgent.CurrentCell = posToCell[cellPostion];   //agent cell
                 //newAgent.agentRadius = AGENT_RADIUS;  //agent radius
                 newAgent.Goal = _goal.gameObject;   //really defines the agent's goal
-             
+
 
                 _agents.Add(newAgent);
 
@@ -292,7 +303,7 @@ namespace Biocrowds.Core
 
         //    //Player.Goal = _goal.gameObject;
 
-             
+
 
         //    playerTransform = player.transform;
         //}
@@ -314,34 +325,49 @@ namespace Biocrowds.Core
                 for (int j = 0; j < _cells[i].Auxins.Count; j++)
                     _cells[i].Auxins[j].ResetAuxin();
 
-            //Profiler.BeginSample("FindNearAuxins");
 
-
-            Player.FindNearAuxins();
-
-            //find nearest auxins for each agent
-            for (int i = 0; i < _agents.Count; i++)
-                _agents[i].FindNearAuxins();
-
-            //Profiler.EndSample();
-
-            //find the agent
-            List<Auxin> agentAuxins = Player.Auxins;
-
-            //vector for each auxin
-            for (int j = 0; j < agentAuxins.Count; j++)
+            if (Player && Player.enabled)
             {
-                //add the distance vector between it and the agent
-                Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
+                Player.FindNearAuxins();
 
-                //just draw the lines to each auxin
-                //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+                //find the agent
+                List<Auxin> auxins = Player.Auxins;
+
+                //vector for each auxin
+                for (int j = 0; j < auxins.Count; j++)
+                {
+                    //add the distance vector between it and the agent
+                    Player._distAuxin.Add(auxins[j].Position - Player.transform.position);
+
+                    //just draw the lines to each auxin
+                    //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+                }
+
+                Player.CalculateDirection();
+                Player.CalculateVelocity();
+                Player.PlayerStep();
+
             }
 
-            Player.CalculateDirection();
-            Player.CalculateVelocity();
-            Player.PlayerStep();
 
+            Profiler.BeginSample("World.FindAuxins");
+
+            if (_useDOTS)
+            {
+                //find nearest auxins for each agent
+                for (int i = 0; i < _agents.Count; i++)
+                    _agents[i].FindAuxins();
+            }
+            else
+            {
+                for (int i = 0; i < _agents.Count; i++)
+                    _agents[i].FindNearAuxins();
+            }
+
+
+            Profiler.EndSample();
+
+            
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
              * the vector from agent to goal, generating a angle which must lie between 0 (best case) and 180 (worst case)
@@ -353,6 +379,34 @@ namespace Biocrowds.Core
             3 - calculate speed vector 
             4 - step
             */
+
+
+           
+
+
+            // lines 315-333 exports the csv file
+            // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
+            // {
+            //     WriteToFile();
+            //     Debug.Log("Write");
+            // }
+
+            Frame++;
+
+        }
+
+        private void LateUpdate()
+        {
+            Profiler.BeginSample("SetVar");
+
+            if (_useDOTS)
+                for (int i = 0; i < _agents.Count; i++)
+                    _agents[i].FindAuxinsLate();
+
+            Profiler.EndSample();
+
+            List<Auxin> agentAuxins;
+
 
 
             for (int i = 0; i < _maxAgents; i++)
@@ -373,17 +427,8 @@ namespace Biocrowds.Core
 
             }
 
-
-            // lines 315-333 exports the csv file
-            // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
-            // {
-            //     WriteToFile();
-            //     Debug.Log("Write");
-            // }
-
-            Frame++;
-
         }
+
         //private void WriteToFile()
         //{
         //    string content = "";
