@@ -21,6 +21,9 @@ namespace Biocrowds.Core
 
         public static World instance;
 
+        [field: SerializeField]
+        public Experiment experiment { get; private set; }
+
         //[field: SerializeField]
         //public PlayerController Player { get; private set; }
 
@@ -111,7 +114,7 @@ namespace Biocrowds.Core
             yield return StartCoroutine(DartThrowing());
 
             //create our agents
-            yield return StartCoroutine(CreateAgents());
+            //yield return StartCoroutine(CreateAgents());
 
             //build the navmesh at runtime
 #if         UNITY_EDITOR
@@ -284,24 +287,7 @@ namespace Biocrowds.Core
             yield return null;
         }
 
-        //public void Spawnplayer()
-        //{
-        //    Debug.Log("Player Spawned");
-        //    GameObject player = Spawn();
-        //    Player = player.GetComponent<PlayerMovement>();
-
-        //    //Player.Goal = _goal.gameObject;
-
-             
-
-        //    playerTransform = player.transform;
-        //}
-
-
-        //public GameObject Spawn()
-        //{
-        //    return Instantiate(_PlayerPrefab, _psArea.transform.position, Quaternion.identity);
-        //}
+    
 
         // Update is called once per frame
         void Update()
@@ -314,82 +300,13 @@ namespace Biocrowds.Core
                 for (int j = 0; j < _cells[i].Auxins.Count; j++)
                     _cells[i].Auxins[j].ResetAuxin();
 
-            //Profiler.BeginSample("FindNearAuxins");
 
-
-            //Player.FindNearAuxins();
-
-            //find nearest auxins for each agent
-            for (int i = 0; i < _agents.Count; i++)
-                _agents[i].FindNearAuxins();
-
-            //Profiler.EndSample();
-
-            //find the agent
-            List<Auxin> agentAuxins = new List<Auxin>();
-            
-
-            ////vector for each auxin
-            //for (int j = 0; j < agentAuxins.Count; j++)
-            //{
-            //    //add the distance vector between it and the agent
-            //    Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
-
-            //    //just draw the lines to each auxin
-            //    //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
-            //}
-
-            //Player.CalculateDirection();
-            //Player.CalculateVelocity();
-            //Player.PlayerStep();
-
-            /*
-             * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
-             * the vector from agent to goal, generating a angle which must lie between 0 (best case) and 180 (worst case)
-             * The calculation formula was taken from the Bicho´s master thesis and from Paravisi OSG implementation.
-            */
-            /*for each agent:
-            1 - for each auxin near him, find the distance vector between it and the agent
-            2 - calculate the movement vector 
-            3 - calculate speed vector 
-            4 - step
-            */
-
-
-            for (int i = 0; i < _maxAgents; i++)
-            {
-                agentAuxins = _agents[i].Auxins;
-
-                for (int j = 0; j < agentAuxins.Count; j++)
-                {
-                    _agents[i]._distAuxin.Add(agentAuxins[j].Position - _agents[i].transform.position);
-                    Debug.DrawLine(agentAuxins[j].Position, _agents[i].transform.position, Color.green);
-                }
-
-                _agents[i].CalculateDirection();
-                _agents[i].CalculateVelocity();
-                _agents[i].CalculateAverage();
-                _agents[i].Step();
-
-
-            }
-
-
-            // lines 315-333 exports the csv file
-            // if (Array.Exists<Agent>(_agents.ToArray(), x => x._arrivedAtGoal))
-            // {
-            //     WriteToFile();
-            //     Debug.Log("Write");
-            // }
 
             Frame++;
 
         }
 
-        public static implicit operator World(NoPlayerWorld v)
-        {
-            throw new NotImplementedException();
-        }
+
 
         //private void WriteToFile()
         //{

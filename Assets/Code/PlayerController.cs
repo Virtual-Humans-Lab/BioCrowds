@@ -35,6 +35,12 @@ public class PlayerController : Agent
     // Update is called once per frame
     void Update()
     {
+        for (int j = 0; j < _auxins.Count; j++)
+        {
+            Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
+        }
+
+
         base.ClearAgent();
 
         float x = Input.GetAxis("Horizontal");
@@ -43,7 +49,6 @@ public class PlayerController : Agent
         Vector3 move = transform.right * x + transform.forward * z;
 
         _arrivedAtGoal = false;
-
 
         if (Vector3.Distance(transform.position, Goal.transform.position) < _goalThreshold && !_arrivedAtGoal)
         {
@@ -69,12 +74,27 @@ public class PlayerController : Agent
             agentRadius = 1;
         }
 
+        FindNearAuxins();
 
-        for (int j = 0; j < _auxins.Count; j++)
+        List<Auxin> agentAuxins = _auxins;
+
+        //vector for each auxin
+        for (int j = 0; j < agentAuxins.Count; j++)
         {
-            Debug.DrawLine(_auxins[j].Position, transform.position, Color.red);
+            //add the distance vector between it and the agent
+            _distAuxin.Add(agentAuxins[j].Position - transform.position);
+
+            //just draw the lines to each auxin
+            //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
         }
 
+        CalculateDirection();
+        CalculateVelocity();
+        PlayerStep();
+
+
+
+       
 
 
     }

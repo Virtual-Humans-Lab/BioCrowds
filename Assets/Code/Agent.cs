@@ -108,8 +108,33 @@ namespace Biocrowds.Core
 
         protected void Update()
         {
+            List<Auxin> agentAuxins = _auxins;
+
+            for (int j = 0; j < agentAuxins.Count; j++)
+            {
+                Debug.DrawLine(agentAuxins[j].Position, transform.position, Color.green);
+            }
+
             //clear agent´s information
             ClearAgent();
+
+            FindNearAuxins();
+
+            agentAuxins = _auxins;
+
+            for (int j = 0; j < agentAuxins.Count; j++)
+            {
+                _distAuxin.Add(agentAuxins[j].Position - transform.position);
+               
+            }
+
+            CalculateDirection();
+
+            CalculateVelocity();
+
+            CalculateAverage();
+
+            Step();
 
             // Update the way to the goal every second.
             _elapsedTime += Time.deltaTime;
