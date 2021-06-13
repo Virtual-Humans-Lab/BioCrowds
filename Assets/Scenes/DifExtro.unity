@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1672430820}
-  m_IndirectSpecularColor: {r: 0.18084419, g: 0.22638181, b: 0.30720872, a: 1}
+  m_IndirectSpecularColor: {r: 0.46236372, g: 0.51311517, b: 0.59018326, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -601,8 +601,8 @@ MonoBehaviour:
     NumberOfAgents: 0
     Goal: {fileID: 0}
   _profileOCEAN:
-    IntrovertedAgentQuantity: 1
-    ExtrovertedAgentQuantity: 4
+    IntrovertedAgentQuantity: 4
+    ExtrovertedAgentQuantity: 1
     Goal: {fileID: 2878196993928143260}
 --- !u!4 &873085472
 Transform:
@@ -2065,11 +2065,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 13.256333
+      value: 12.985761
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.661
+      value: 6.526
       objectReference: {fileID: 0}
     - target: {fileID: 4000012487660736, guid: cc172be03f3005746afb8b541240aa7f, type: 3}
       propertyPath: m_LocalPosition.y

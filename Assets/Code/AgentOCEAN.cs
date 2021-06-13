@@ -24,12 +24,17 @@ namespace Biocrowds.Emotion
 
         private float _confortFactor;
 
+        private List<(int, float)> _ws;
+
         // Start is called before the first frame update
         void Start()
         {
+
+            _ws = new List<(int, float)>();
+
             base.Start();
             maxAuxins = 75;
-            _ws = new List<(int,float)>();
+            
 
             //_emotionProfile.Extraversion = Random.Range(0.1f, 1f);
             //_emotionProfile.Neuroticism = 0f;
@@ -104,7 +109,7 @@ namespace Biocrowds.Emotion
         }
 
 #if UNITY_EDITOR
-        private List<(int, float)> _ws;
+        
         private bool _debug = false;
 
         private void OnDrawGizmos()

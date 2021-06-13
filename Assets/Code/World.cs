@@ -7,7 +7,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.AI;
+//using UnityEditor.AI;
 using System.Collections;
 using UnityEngine.AI;
 using System;

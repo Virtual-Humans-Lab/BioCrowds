@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Ghost.unity
+    guid: af9ee7c48658b194fbbc4c5674618f7e
+  - enabled: 1
+    path: Assets/Scenes/PlayerBioCrowds.unity
+    guid: cdc42d910989390419f155d47bc2a739
+  - enabled: 1
+    path: Assets/Scenes/PlayerNormalLife.unity
+    guid: 7510f816572a3bc4484a73f2c2728045
   m_configObjects: {}
