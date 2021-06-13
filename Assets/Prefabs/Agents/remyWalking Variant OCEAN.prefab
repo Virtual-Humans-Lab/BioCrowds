@@ -160,7 +160,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 069c275370d6e6d4999d2164f300545d,
         type: 3}
       propertyPath: m_Name
-      value: remyWalking Variant
+      value: remyWalking Variant OCEAN
       objectReference: {fileID: 0}
     - target: {fileID: 4167280743394806330, guid: 069c275370d6e6d4999d2164f300545d,
         type: 3}

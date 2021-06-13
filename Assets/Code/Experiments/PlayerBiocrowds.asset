@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3c21d518212bda41bc4648a4a360bcc, type: 3}
-  m_Name: New Experiment OCEAN 2
+  m_Name: PlayerBiocrowds
   m_EditorClassIdentifier: 
-  InteractionType: 0
+  InteractionType: 1
+  agentPrefab: {fileID: -3367430751102205621, guid: 643b2411ef4b95741aa21ddf5a8a91d2,
+    type: 3}
   IntrovertProfile:
     Openness: 0
     Conscientiousness: 0
-    Extraversion: 0
+    Extraversion: 0.795
     Aggreableness: 0
     Neuroticism: 0
-  IntrovertsToSpawn: 100
   ExtrovertProfile:
     Openness: 0
     Conscientiousness: 0
     Extraversion: 1
     Aggreableness: 0
     Neuroticism: 0
-  ExtrovertsToSpawn: 50

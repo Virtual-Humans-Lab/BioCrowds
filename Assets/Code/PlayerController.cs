@@ -73,16 +73,25 @@ public class PlayerController : Agent
                 _goalPosition = Goal.transform.position;
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if(World.instance.experiment.InteractionType == Experiment.Interaction.PlayerNormalLife)
             {
-                _playerPriority = 0.01f;
-                agentRadius = 0.1f;
+
             }
             else
             {
-                _playerPriority = 1f;
-                agentRadius = 1;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    _playerPriority = 0.01f;
+                    agentRadius = 0.1f;
+                }
+                else
+                {
+                    _playerPriority = 1f;
+                    agentRadius = 1;
+                }
+
             }
+    
 
             FindNearAuxins();
 
@@ -103,13 +112,6 @@ public class PlayerController : Agent
             PlayerStep();
 
         }
-
-
-
-
-
-
-
     }
 
 

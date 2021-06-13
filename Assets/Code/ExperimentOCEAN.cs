@@ -15,5 +15,4 @@ namespace Biocrowds.Emotion
         public OCEAN ExtrovertProfile;
         //public int ExtrovertsToSpawn;
     }
-
 }
