@@ -12,6 +12,7 @@ using System.Collections;
 using UnityEngine.AI;
 using System;
 using UnityEngine.Profiling;
+using UnityEngine.SceneManagement;
 
 namespace Biocrowds.Core
 {
@@ -298,6 +299,21 @@ namespace Biocrowds.Core
             for (int i = 0; i < _cells.Count; i++)
                 for (int j = 0; j < _cells[i].Auxins.Count; j++)
                     _cells[i].Auxins[j].ResetAuxin();
+
+
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                SceneManager.LoadScene(0);
+            }
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                SceneManager.LoadScene(1);
+            }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                SceneManager.LoadScene(2);
+            }
+
 
 
 
