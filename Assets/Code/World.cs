@@ -301,15 +301,15 @@ namespace Biocrowds.Core
                     _cells[i].Auxins[j].ResetAuxin();
 
 
-            if (Input.GetKeyDown(KeyCode.F1))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 SceneManager.LoadScene(0);
             }
-            if (Input.GetKeyDown(KeyCode.F2))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 SceneManager.LoadScene(1);
             }
-            if (Input.GetKeyDown(KeyCode.F3))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 SceneManager.LoadScene(2);
             }

@@ -1,0 +1,15 @@
+{
+"companyName": "VhLab",
+"productName": "BiocrowdsUserResearch",
+"productVersion": "1.0",
+"dataUrl": "NewWebgl.data.unityweb",
+"wasmCodeUrl": "NewWebgl.wasm.code.unityweb",
+"wasmFrameworkUrl": "NewWebgl.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.21f1"
+}
