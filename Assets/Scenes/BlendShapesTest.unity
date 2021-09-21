@@ -205,6 +205,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: remyWalking Variant OCEAN
       objectReference: {fileID: 0}
+    - target: {fileID: 6761030641780266436, guid: 643b2411ef4b95741aa21ddf5a8a91d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 643b2411ef4b95741aa21ddf5a8a91d2, type: 3}
 --- !u!1 &144224274
@@ -2472,7 +2477,7 @@ PrefabInstance:
     - target: {fileID: 8423113675055453143, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8423113675055453143, guid: 80e827a62aa38da4680f69f47e7a4f44,
         type: 3}

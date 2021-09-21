@@ -50,6 +50,7 @@ namespace Biocrowds.Core
         //public List<GameObject> _goalList { get; private set; }
 
         public float SIMULATION_STEP { get; private set; } = 1f / 30f;
+        [field: SerializeField]public bool DYNAMIC_SIMULATION_STEP { get; private set; } = false;
 
         [SerializeField]
         private Vector2 _dimension = new Vector2(30.0f, 20.0f);
@@ -57,6 +58,7 @@ namespace Biocrowds.Core
         {
             get { return _dimension; }
         }
+
 
         //number of agents in the scene
         //[SerializeField]
@@ -292,6 +294,12 @@ namespace Biocrowds.Core
         // Update is called once per frame
         void Update()
         {
+            if (DYNAMIC_SIMULATION_STEP)
+            {
+                SIMULATION_STEP = Time.deltaTime;
+            }
+            else { SIMULATION_STEP = 1f / 30f; }
+
             if (!_isReady)
                 return;
 

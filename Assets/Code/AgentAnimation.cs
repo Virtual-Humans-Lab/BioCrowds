@@ -8,7 +8,7 @@ using UnityEngine.Profiling;
 
 namespace Biocrowds.Animation
 {
-    public class AgentAnimation : MonoBehaviour
+    public class AgentAnimation : Agent
     {
 
         [SerializeField] private float _rotationSpeed;
@@ -20,10 +20,10 @@ namespace Biocrowds.Animation
 
         [SerializeField] private Vector3 _averageDirection;
         [SerializeField] private Vector3 _direction;
-
-        private Vector3 _lastPos;
+        [SerializeField] private GameObject Player;
 
         private float _framesPerSecond;
+
 
         private Agent _agent;
         private Animator _animator;
@@ -39,6 +39,7 @@ namespace Biocrowds.Animation
             _agent = gameObject.GetComponent<Agent>();
             _animator = _agent.GetComponent<Animator>();
 
+            //Application.targetFrameRate = 20;
 
             for (int i = 0; i < _framesPerSecond; i++)
             {
@@ -52,7 +53,9 @@ namespace Biocrowds.Animation
         private void UpdateAnimationVelocity()
         {
 
-            _animator.SetFloat("Speed", _direction.magnitude);
+            _animator.SetFloat("Speed", _direction.magnitude * (_framesPerSecond / 60));
+
+            //_animator.speed = 1 * (_framesPerSecond / 30);
         }
 
 
@@ -88,6 +91,9 @@ namespace Biocrowds.Animation
         // Update is called once per frame
         void Update()
         {
+
+            _framesPerSecond = Mathf.Pow(World.instance.SIMULATION_STEP, -1);
+
 #if UNITY_EDITOR
             Profiler.BeginSample("Animation");
 #endif  
@@ -100,13 +106,13 @@ namespace Biocrowds.Animation
             else
             {
                 //if (transform.position - _lastPos != Vector3.zero)
-                 _deltas.Enqueue(transform.position - _lastPos);
+                _deltas.Enqueue(transform.position - _lastPos);
             }
-            
+
 
             _deltaVisu = _deltas.ToList();
 
-            
+
 
             if (_deltas.Count > _framesPerSecond)
             {
@@ -119,6 +125,8 @@ namespace Biocrowds.Animation
             }
 
             _lastPos = transform.position;
+     
+
 
 #if UNITY_EDITOR
             Profiler.EndSample();

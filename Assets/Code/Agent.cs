@@ -17,9 +17,11 @@ namespace Biocrowds.Core
     public class Agent : MonoBehaviour
     {
         protected const float UPDATE_NAVMESH_INTERVAL = 0.1f;
-
+         
         //agent radius
         protected float agentRadius { get; set; } = 1f;
+
+        protected float agentThreshold = 1.5f;
 
         //agent speed
         protected Vector3 _velocity { get; private set; }
@@ -275,7 +277,7 @@ namespace Biocrowds.Core
 
             if (Ymodule < float.Epsilon)
                 return 0.0f;
-
+                
             //return the formula, defined in thesis
             return (float)((1.0 / (1.0 + Ymodule)) * (1.0 + ((dot) / (Xmodule * Ymodule))));
         }

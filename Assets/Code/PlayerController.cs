@@ -11,6 +11,8 @@ public class PlayerController : Agent
     public Camera camera;
 
     public float _playerPriority = 1f;
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -111,7 +113,10 @@ public class PlayerController : Agent
             CalculateVelocity();
             PlayerStep();
 
+
         }
+
+
     }
 
 

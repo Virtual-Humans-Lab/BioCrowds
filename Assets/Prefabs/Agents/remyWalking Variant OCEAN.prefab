@@ -36,10 +36,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e4c158cd7369843965c1692b2e01b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxSpeed: 1.5
+  Goal: {fileID: 0}
+  agentCheckTransform: {fileID: 0}
+  _distAuxin: []
+  _goalPosition: {x: 0, y: 0, z: 0}
   _rotationSpeed: 50
   _deltaVisu: []
   _averageDirection: {x: 0, y: 0, z: 0}
   _direction: {x: 0, y: 0, z: 0}
+  Player: {fileID: 6752845410819249573, guid: da02c980eca388445b420f33034b330a, type: 3}
 --- !u!1001 &5842690844298389653
 PrefabInstance:
   m_ObjectHideFlags: 0
