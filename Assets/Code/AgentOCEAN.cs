@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Biocrowds.Core;
 
 
 namespace Biocrowds.Emotion
@@ -25,6 +25,16 @@ namespace Biocrowds.Emotion
         private float _confortFactor;
 
         private List<(int, float)> _ws;
+
+
+        [SerializeField] 
+        private GameObject Player;
+        private Vector3 _playerPos;
+        private Vector3 _agentPos;
+
+
+        //facial expressions
+        private Animator _animator;
 
         // Start is called before the first frame update
         void Start()
@@ -53,7 +63,31 @@ namespace Biocrowds.Emotion
 
             _confortFactor = _auxins.Count / maxAuxins;
 
-         
+            var agents = World.instance._agents;
+
+            //ocean-based transitions
+
+            for(int i = 0; i<agents.Count; i++)
+            {
+                if (CalculateExtraversionFactor() == 1.0f)
+                {
+
+                    _animator = agents[i].GetComponent<Animator>();
+
+                    _animator.ResetTrigger("Neutral");
+                    _animator.SetTrigger("Happy");
+                }
+
+                if((CalculateExtraversionFactor()== 0.8f))
+                {
+                    _animator = agents[i].GetComponent<Animator>();
+
+                    _animator.ResetTrigger("Happy");
+                    _animator.SetTrigger("Neutral");
+
+                
+                }
+            }
         }
 
         private float CalculateConfortFactor()

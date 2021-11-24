@@ -650,8 +650,8 @@ MonoBehaviour:
     NumberOfAgents: 0
     Goal: {fileID: 0}
   _profileOCEAN:
-    IntrovertedAgentQuantity: 0
-    ExtrovertedAgentQuantity: 1
+    IntrovertedAgentQuantity: 5
+    ExtrovertedAgentQuantity: 5
     Goal: {fileID: 2878196993928143260}
 --- !u!4 &873085472
 Transform:

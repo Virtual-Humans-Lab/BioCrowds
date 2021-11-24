@@ -17,7 +17,6 @@ using UnityEngine.SceneManagement;
 namespace Biocrowds.Core
 {
     public class World : MonoBehaviour
-
     {
 
         public static World instance;
@@ -309,18 +308,18 @@ namespace Biocrowds.Core
                     _cells[i].Auxins[j].ResetAuxin();
 
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                SceneManager.LoadScene(0);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SceneManager.LoadScene(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SceneManager.LoadScene(2);
-            }
+            //if (Input.GetKeyDown(KeyCode.Alpha1))
+            //{
+            //    SceneManager.LoadScene(0);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha2))
+            //{
+            //    SceneManager.LoadScene(1);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha3))
+            //{
+            //    SceneManager.LoadScene(2);
+            //}
 
 
 

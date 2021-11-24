@@ -125,11 +125,13 @@ namespace Biocrowds.Animation
             }
 
             _lastPos = transform.position;
-     
+
+
+
 
 
 #if UNITY_EDITOR
-            Profiler.EndSample();
+                Profiler.EndSample();
 #endif  
 
         }

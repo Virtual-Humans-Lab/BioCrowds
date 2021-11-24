@@ -6,22 +6,24 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Profiling;
 
+
 public class Tracker : Agent
 {
 
     [SerializeField] private GameObject Player;
 
 
-    private bool madeContact;
+    //private bool madeContact;
     private Vector3 _playerPos;
     private Vector3 _agentPos;
+
 
     private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
@@ -36,15 +38,18 @@ public class Tracker : Agent
             _playerPos = Player.transform.position;
 
 
+
             if (Vector3.Distance(_playerPos, _agentPos) <= agentThreshold)
             {
                 _animator = agents[i].GetComponent<Animator>();
 
-                madeContact = true;
+                //madeContact = true;
+
                 //TODO another if/else for different animations regarding agent's ocean
 
                 _animator.ResetTrigger("Neutral");
                 _animator.SetTrigger("Happy");
+
             }
 
             else
@@ -54,7 +59,7 @@ public class Tracker : Agent
                 _animator.ResetTrigger("Happy");
                 _animator.SetTrigger("Neutral");
 
-                madeContact = false;
+                //madeContact = false;
             }
         }
     }
