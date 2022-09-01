@@ -22,7 +22,7 @@ namespace Biocrowds.Core
         public static World instance;
 
         [field: SerializeField]
-        public PlayerController Player { get; private set; }
+        //public PlayerController Player { get; private set; }
 
         public Dictionary<Vector2, Cell> posToCell { get; private set; }
 
@@ -317,7 +317,7 @@ namespace Biocrowds.Core
             //Profiler.BeginSample("FindNearAuxins");
 
 
-            Player.FindNearAuxins();
+            //Player.FindNearAuxins();
 
             //find nearest auxins for each agent
             for (int i = 0; i < _agents.Count; i++)
@@ -326,21 +326,21 @@ namespace Biocrowds.Core
             //Profiler.EndSample();
 
             //find the agent
-            List<Auxin> agentAuxins = Player.Auxins;
+            List<Auxin> agentAuxins;
 
             //vector for each auxin
-            for (int j = 0; j < agentAuxins.Count; j++)
-            {
-                //add the distance vector between it and the agent
-                Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
+            //for (int j = 0; j < agentAuxins.Count; j++)
+            //{
+            //    //add the distance vector between it and the agent
+            //    //Player._distAuxin.Add(agentAuxins[j].Position - Player.transform.position);
 
-                //just draw the lines to each auxin
-                //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
-            }
+            //    //just draw the lines to each auxin
+            //    //Debug.DrawLine(agentAuxins[j].Position, Player.transform.position, Color.green);
+            //}
 
-            Player.CalculateDirection();
-            Player.CalculateVelocity();
-            Player.PlayerStep();
+            //Player.CalculateDirection();
+            //Player.CalculateVelocity();
+            //Player.PlayerStep();
 
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 

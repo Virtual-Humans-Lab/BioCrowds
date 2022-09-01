@@ -20,7 +20,7 @@ public class CameraSwitch : MonoBehaviour
         //Debug.Log(_world.Player);
         //Debug.Log(_world.Player.camera);
 
-        cameraOne = _world.Player.camera.gameObject;
+        //cameraOne = _world.Player.camera.gameObject;
        
         //Camera Position Set
         cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
